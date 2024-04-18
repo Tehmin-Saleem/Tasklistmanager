@@ -1,48 +1,54 @@
-// import React from "react";
-// import vector from "../Images/Vector.png";
-// function Dashboard() {
-//   return (
-//     <>
-//       {/* <div className="main flex justify-center items-center h-screen"> */}
-//       <div className="top w-[1000px] bg-black ml-[300px] h-24"></div>
-//       <div className=" left w-[70%] bg-[#4BCBEB] h-32 flex items-center justify-center ">
-//         <img src={vector} alt="Logo" />
-//         <span>
-//           <h2 className="text-2xl font-bold text-black">Task Manager List</h2>
-//         </span>
-//         {/* <div className="flex items-center"></div> */}
-//       </div>
-
-//       <div className="right w-1/2 bg-blue-500 ml-[345px] h-[500px] mt-[100px] w-[960px] ">
-//         {/* <div className="flex flex-col mx-[100px] "></div> */}
-//       </div>
-//       {/* </div> */}
-//     </>
-//   );
-// }
-// export default Dashboard;
-
+import { CgProfile } from "react-icons/cg";
 import React from "react";
-import vector from "../Images/Vector.png";
-
+import group from "../Images/Group.png";
+import { IoNotificationsOutline } from "react-icons/io5";
+import ResetPassword from "../Pages/Password/ResetPassword";
 function Dashboard() {
   return (
     <>
-      <div className="flex">
-        <div className="top w-[25%] bg-[#4BCBEB] h-96 mr-4">
-          <img className="" src={vector} alt="Logo" />
-          <span>
-            <h2 className="text-2xl font-medium text-black">
+      <div className="flex bg-gray-100">
+        <div className="topleft w-[25%] bg-white h-[700px] pl-8 ">
+          <span className="my-2">
+            <img src={group} alt="Logo" className="mr-2 pt-4" />
+            <h2 className="text-2xl font-medium ml-[30px] font-bold text-[#4BCBEB]">
               Task Manager List
             </h2>
+            <hr className="ml-1 mr-[105px]"></hr>
           </span>
+          <h2 className="text-black font-bold mt-8">MENU</h2>
+
+          <button className="flex flex-col   pr-[100px]   py-2 mt-4 hover:shadow-md ">
+            <h2 className="text-[#4BCBEB] ml-2 font-bold">Dashboard</h2>
+          </button>
+          <button className="flex flex-col  hover:text-[#4BCBEB] pr-[140px]    hover:shadow-md py-2 mt-4">
+            <h2 className=" font-bold ml-2">Users</h2>
+          </button>
+          <button className="flex flex-col hover:text-[#4BCBEB]  pr-[140px]    hover:shadow-md py-2 mt-4 ">
+            <h2 className=" font-bold ml-2">Tasks</h2>
+          </button>
+          <button className="flex flex-col hover:text-[#4BCBEB]  pr-[120px]    hover:shadow-md py-2 mt-4">
+            <h2 className=" font-bold ml-2">Settings</h2>
+          </button>
         </div>
-        <div className="left w-[75%] bg-black h-24 flex items-center justify-center"></div>
+
+        <div className="topright w-[75%] bg-white h-24 flex ml-1 items-center justify-center">
+          <h1 className="mr-[650px] font-bold text-3xl ml-1">Dashboard</h1>
+          <span className="my-[20px]">
+            <div className="relative flex flex-row">
+              <IoNotificationsOutline className="text-gray-400 mt-[2px]  size-[2rem] " />
+
+              <CgProfile className="text-gray-400 mt-[2px] size-[2rem] " />
+            </div>
+          </span>
+          <div className="flex flex-col">
+            <span className=" ">Usman Shahid</span>
+
+            <span className=" ">Status 200</span>
+          </div>
+        </div>
       </div>
 
-      <div className="right w-1/2 bg-blue-500 ml-[345px] h-[500px] mt-[100px] w-[960px] ">
-        {/* Content for the right section */}
-      </div>
+      <div className="center w-1/2 bg-blue-500 ml-[350px]  h-[500px]  row-span-2   w-[960px] "></div>
     </>
   );
 }

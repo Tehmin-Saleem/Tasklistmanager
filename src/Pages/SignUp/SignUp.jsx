@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import bro from "../../Images/bro.png";
 import vector from "../../Images/Vector.png";
 import validator from "validator";
+import { RiLockPasswordLine } from "react-icons/ri";
+import { MdOutlineMailOutline } from "react-icons/md";
 function SignUp() {
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
@@ -48,33 +50,46 @@ function SignUp() {
       <div className="right w-1/2  h-full pt-[100px] ">
         <div className="flex flex-col mx-[100px] ">
           <h5 className="font-bold  pb-8 text-2xl">Sign Up for an Account</h5>
-          <input
-            id="fullName"
-            className="text-sm w-4/5 px-4 py-4 border border-solid border-gray-300 rounded"
-            type="text"
-            placeholder="Enter Your Full Name"
-            required
-          />
-
-          <input
-            id="email"
-            className="text-sm w-4/5 px-4 py-4 border border-solid border-gray-300 rounded mt-4"
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChnage={handleEmailChange}
-            required
-          />
-
-          <input
-            id="password"
-            className="text-sm w-4/5 px-4 py-4 border border-solid border-gray-300 rounded my-4"
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={handlePasswordChange}
-            required
-          />
+          <div className="relative">
+            <input
+              id="fullName"
+              className="text-sm w-4/5 pl-10 pr-4 py-4 border border-solid border-gray-300 rounded"
+              type="text"
+              placeholder="Enter Your Full Name"
+              required
+            />
+            {/* <div className="absolute top-0 left-0 flex items-center h-full px-3">
+              <MdOutlineMailOutline className="text-gray-400" />
+            </div> */}
+          </div>
+          <div className="relative">
+            <input
+              id="email"
+              className="text-sm w-4/5 px-4 py-4 pl-8  border  border-solid border-gray-300 rounded mt-4"
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChnage={handleEmailChange}
+              required
+            />
+            <div className="absolute top-0 left-0 flex mt-2 items-center  h-full px-3">
+              <MdOutlineMailOutline className="text-gray-400 " />
+            </div>
+          </div>
+          <div className="relative">
+            <input
+              id="password"
+              className="text-sm w-4/5 px-4 py-4 pl-8 border border-solid border-gray-300 rounded my-4"
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={handlePasswordChange}
+              required
+            />{" "}
+            <div className="absolute top-0 left-0 flex items-center h-full px-3">
+              <RiLockPasswordLine className="text-gray-400" />
+            </div>
+          </div>
           {emailError && (
             <div className="text-red-500 text-xs mt-1">{emailError}</div>
           )}
