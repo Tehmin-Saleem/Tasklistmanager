@@ -101,16 +101,15 @@ function Dashboard() {
   }, []);
   return (
     <div className="grid grid-rows-3 grid-flow-col bg-gray-100">
-      <div className="topleft w-[100%] row-span-3 bg-white h-auto pl-8">
-        <span className="">
+    <div className="topleft row-span-3 col-span-1 bg-white h-full pl-8 mr-4">
+        <span>
           <img src={group} alt="Logo" className="mr-2 pt-4" />
-          <h2 className="text-2xl font-medium ml-[30px] font-bold text-[#4BCBEB]">
+          <h2 className="text-2xl font-medium ml-6 font-bold text-[#4BCBEB]">
             Task Manager List
           </h2>
-          <hr className="ml-1 mr-[105px]" />
+          <hr className="ml-1 mr-4" />
         </span>
         <h2 className="text-black font-bold mt-8">MENU</h2>
-
         <button className="flex flex-col pr-[100px] py-2 mt-4 hover:shadow-md">
           <h2 className="text-[#4BCBEB] ml-2 font-bold">Dashboard</h2>
         </button>
@@ -136,7 +135,7 @@ function Dashboard() {
             </div>
           </div>
         </div>
-        <div className="centerdiv bg-white ml-4 flex grid grid-cols-4 col-span-4 h-auto border border-rounded">
+        <div className="centerdiv bg-white ml-4 flex grid grid-cols-4 col-span-4 h-full border border-rounded">
   <h1 className="font-bold text-lg  col-span-4">Analytics</h1>
   <hr className="col-span-4" />
 
