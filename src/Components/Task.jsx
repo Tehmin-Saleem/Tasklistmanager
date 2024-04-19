@@ -1,11 +1,24 @@
 import { CgProfile } from "react-icons/cg";
-import React from "react";
+import React,{useState} from "react";
+import { BsCalendar } from 'react-icons/bs';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import group from "../Images/Group.png";
 import { IoNotificationsOutline } from "react-icons/io5";
-import Calendar from 'react-calendar';
-import ProgressBar from "@ramonak/react-progress-bar";
-import 'react-calendar/dist/Calendar.css';
+
 function Task(){
+  // State for selected date
+  const [selectedDate, setSelectedDate] = useState(null); 
+  // State to control calendar visibility
+  const [showCalendar, setShowCalendar] = useState(false); 
+
+  // Function to handle date selection
+  const handleDateSelect = (date) => {
+    setSelectedDate(date);
+     // Hide the calendar after selecting a date
+    setShowCalendar(false);
+  };
+
     return(
         <>
 <div className="grid grid-rows-3 grid-flow-col gap-4 border ">
@@ -32,7 +45,7 @@ function Task(){
   </button>
 </div>
 <div className="topright col-span-4 flex  bg-white h-24">
-    <h1 className="font-bold text-3xl ml-1 mt-8">Dashboard</h1>
+    <h1 className="font-bold text-3xl ml-1 mt-8">Task</h1>
     <div className="ml-auto flex items-center space-x-4">
       <IoNotificationsOutline className="text-gray-400 size-[2rem]" />
       <CgProfile className="text-gray-400 size-[2rem]" />
@@ -41,6 +54,35 @@ function Task(){
         <h1>Status 200</h1>
       </div>
     </div>
+  </div>
+  <div className="centerdiv bg-white ml-4 flex grid grid-cols-4 col-span-4 h-full border border-rounded">
+  <div className="dropdown-button bg-black text-white">
+      <div className="date-container flex  bg-blue-400 ">
+        <BsCalendar
+          className="calendar-icon cursor-pointer mr-2 ml-[200px] mt-[40px] bg-red-800"
+          onClick={() => setShowCalendar(!showCalendar)}
+        />
+        <span
+          className="selected-date cursor-pointer"
+          onClick={() => setShowCalendar(!showCalendar)}
+        >
+          {selectedDate ? selectedDate.toDateString() : ""}
+        </span>
+      </div>
+      {showCalendar && (
+        <DatePicker
+          selected={selectedDate}
+          onChange={handleDateSelect}
+          dateFormat="MM/dd/yyyy"
+          className="date-picker"
+        />
+      )}
+    </div>
+
+
+
+
+
   </div>
   </div>
   </>

@@ -110,7 +110,7 @@ const Users = () => {
         </button>
       </div>
       <div className="topright col-span-4 flex  bg-white h-24">
-          <h1 className="font-bold text-3xl ml-1 mt-8">Dashboard</h1>
+          <h1 className="font-bold text-3xl ml-1 mt-8">Users</h1>
           <div className="ml-auto flex items-center space-x-4">
             <IoNotificationsOutline className="text-gray-400 size-[2rem]" />
             <CgProfile className="text-gray-400 size-[2rem]" />
