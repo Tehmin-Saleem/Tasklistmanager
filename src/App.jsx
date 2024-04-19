@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, BrowserRouter as Router, Routes, Route } from "react-router-dom"; // Import Link component
-
+import Task from "./Components/Task";
 import SignUp from "./Pages/SignUp/SignUp";
 import Login from "./Pages/Login/Login";
 import Home from "./Pages/Home/Home";
@@ -31,6 +31,9 @@ function App() {
           <button className="px-4 pl-[100px] items-center text-[#4BCBEB] font-bold text-lg">
             <Link to="/user">Users</Link>
           </button>
+          <button className="px-4 pl-[100px] items-center text-[#4BCBEB] font-bold text-lg">
+            <Link to="/task">TTask</Link>
+          </button>
         </ul>
         <Routes>
           <Route path="/" element={<Home />}></Route>
@@ -39,6 +42,7 @@ function App() {
           <Route path="/menu" element={<Menu />}></Route>
           <Route path="/resetpassword" element={<ResetPassword />}></Route>
           <Route path="/user" element={<Users />}></Route>
+          <Route path="/task" element={<Task />}></Route>
         </Routes>
       </Router>
     </>
