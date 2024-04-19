@@ -12,7 +12,7 @@ function App() {
     <>
       <Router>
         <ul className="App-header">
-          <button className="px-4 pl-[700px] items-center text-[#4BCBEB] font-bold text-lg">
+          <button className="px-4 pl-[500px] items-center text-[#4BCBEB] font-bold text-lg">
             <Link to="/">Home</Link>
           </button>
           <button className="px-4 pl-[100px] items-center text-[#4BCBEB] font-bold text-lg">
