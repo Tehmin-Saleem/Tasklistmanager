@@ -6,6 +6,7 @@ import Login from "./Pages/Login/Login";
 import Home from "./Pages/Home/Home";
 import Menu from "./Pages/Menu/Menu";
 import ResetPassword from "./Pages/Password/ResetPassword";
+import Users from "./Components/Users";
 
 function App() {
   return (
@@ -27,6 +28,9 @@ function App() {
           <button className="px-4 pl-[100px] items-center text-[#4BCBEB] font-bold text-lg">
             <Link to="/resetpassword">Password</Link>
           </button>
+          <button className="px-4 pl-[100px] items-center text-[#4BCBEB] font-bold text-lg">
+            <Link to="/user">Users</Link>
+          </button>
         </ul>
         <Routes>
           <Route path="/" element={<Home />}></Route>
@@ -34,6 +38,7 @@ function App() {
           <Route path="/signup" element={<SignUp />}></Route>
           <Route path="/menu" element={<Menu />}></Route>
           <Route path="/resetpassword" element={<ResetPassword />}></Route>
+          <Route path="/user" element={<Users />}></Route>
         </Routes>
       </Router>
     </>
