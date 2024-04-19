@@ -32,7 +32,7 @@ function App() {
             <Link to="/user">Users</Link>
           </button>
           <button className="px-4 pl-[100px] items-center text-[#4BCBEB] font-bold text-lg">
-            <Link to="/task">TTask</Link>
+            <Link to="/task">Task</Link>
           </button>
         </ul>
         <Routes>
