@@ -1,168 +1,251 @@
-import React, { useState } from 'react';
-import { CgProfile } from "react-icons/cg";
-import group from '../Images/Group.png';
-import { IoNotificationsOutline } from "react-icons/io5";
-const Users = () => {
-  const userList = [
-    {
-      id: 1,
-      customerName: 'John Doe',
-      projectName: 'Project X',
-      taskStartDate: '19-04-2024',
-      taskEndDate: '19-04-2024',
-      overdueDays: 2,
-    },
-    {
-      id: 2,
-      customerName: 'Jane Smith',
-      projectName: 'Project Y',
-      taskStartDate: '19-04-2024',
-      taskEndDate: '19-04-2024',
-      overdueDays: 0,
-    },
-    {
-      id: 3,
-      customerName: 'Alice Johnson',
-      projectName: 'Project Z',
-      taskStartDate: '19-04-2024',
-      taskEndDate: '19-04-2024',
-      overdueDays: 1,
-    },
-    {
-        id: 4,
-        customerName: 'Alice Johnson',
-        projectName: 'Project Z',
-        taskStartDate: '19-04-2024',
-        taskEndDate: '19-04-2024',
-        overdueDays: 1,
-      },
-      {
-        id: 5,
-        customerName: 'Alice Johnson',
-        projectName: 'Project Z',
-        taskStartDate: '19-04-2024',
-        taskEndDate: '19-04-2024',
-        overdueDays: 1,
-      },
-      {
-        id: 6,
-        customerName: 'Alice Johnson',
-        projectName: 'Project Z',
-        taskStartDate: '19-04-2024',
-        taskEndDate: '19-04-2024',
-        overdueDays: 1,
-      },
-      {
-        id: 7,
-        customerName: 'Alice Johnson',
-        projectName: 'Project Z',
-        taskStartDate: '19-04-2024',
-        taskEndDate: '19-04-2024',
-        overdueDays: 1,
-      },
-  ];
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-  const [dropdownId, setDropdownId] = useState(null);
 
-  const handleDropdown = (id) => {
-    if (dropdownId === id) {
-      setDropdownId(null);
-    } else {
-      setDropdownId(id);
-    }
-  };
+function Users() {
+    const tasks = [
+        {
+            id: 1,
+            customerName: "John Doe",
+            customerImage: "https://picsum.photos/50", // Sample image URL
+            customerLink: "/john-doe", // Sample customer link
+            projectName: "Project X",
+            startDate: "2024-04-19",
+            endDate: "2024-04-30",
+            overdueDate: "2024-05-05",
+        },
+        {
+            id: 1,
+            customerName: "John Doe",
+            customerImage: "https://picsum.photos/50", // Sample image URL
+            customerLink: "/john-doe", // Sample customer link
+            projectName: "Project X",
+            startDate: "2024-04-19",
+            endDate: "2024-04-30",
+            overdueDate: "2024-05-05",
+        },
+        {
+            id: 1,
+            customerName: "John Doe",
+            customerImage: "https://picsum.photos/50", // Sample image URL
+            customerLink: "/john-doe", // Sample customer link
+            projectName: "Project X",
+            startDate: "2024-04-19",
+            endDate: "2024-04-30",
+            overdueDate: "2024-05-05",
+        },
+        {
+            id: 1,
+            customerName: "John Doe",
+            customerImage: "https://picsum.photos/50", // Sample image URL
+            customerLink: "/john-doe", // Sample customer link
+            projectName: "Project X",
+            startDate: "2024-04-19",
+            endDate: "2024-04-30",
+            overdueDate: "2024-05-05",
+        },
+        {
+            id: 1,
+            customerName: "John Doe",
+            customerImage: "https://picsum.photos/50", // Sample image URL
+            customerLink: "/john-doe", // Sample customer link
+            projectName: "Project X",
+            startDate: "2024-04-19",
+            endDate: "2024-04-30",
+            overdueDate: "2024-05-05",
+        },
+        {
+            id: 1,
+            customerName: "John Doe",
+            customerImage: "https://picsum.photos/50", // Sample image URL
+            customerLink: "/john-doe", // Sample customer link
+            projectName: "Project X",
+            startDate: "2024-04-19",
+            endDate: "2024-04-30",
+            overdueDate: "2024-05-05",
+        },
+        {
+            id: 1,
+            customerName: "John Doe",
+            customerImage: "https://picsum.photos/50", // Sample image URL
+            customerLink: "/john-doe", // Sample customer link
+            projectName: "Project X",
+            startDate: "2024-04-19",
+            endDate: "2024-04-30",
+            overdueDate: "2024-05-05",
+        },
+        {
+            id: 1,
+            customerName: "John Doe",
+            customerImage: "https://picsum.photos/50", // Sample image URL
+            customerLink: "/john-doe", // Sample customer link
+            projectName: "Project X",
+            startDate: "2024-04-19",
+            endDate: "2024-04-30",
+            overdueDate: "2024-05-05",
+        },
+        {
+            id: 1,
+            customerName: "John Doe",
+            customerImage: "https://picsum.photos/50", // Sample image URL
+            customerLink: "/john-doe", // Sample customer link
+            projectName: "Project X",
+            startDate: "2024-04-19",
+            endDate: "2024-04-30",
+            overdueDate: "2024-05-05",
+        },
+        // Add more tasks as needed
+    ];
 
-  const renderDropdown = (id) => {
-    if (dropdownId === id) {
-      return (
-        <div className="absolute bg-white border border-gray-300 p-2 right-0 -ml-16">
-          <p className="cursor-pointer hover:bg-gray-200 py-1 px-2" onClick={() => console.log('View clicked')}>View</p>
-          <p className="cursor-pointer hover:bg-gray-200 py-1 px-2" onClick={() => console.log('Edit clicked')}>Edit</p>
-          <p className="cursor-pointer hover:bg-gray-200 py-1 px-2" onClick={() => console.log('Delete clicked')}>Delete</p>
-        </div>
-      );
-    }
-    return null;
-  };
+    const [showOptions, setShowOptions] = useState(false);
+    const [selectedTaskId, setSelectedTaskId] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const tasksPerPage = 10;
 
-  return (
-    <div className="grid grid-rows-3 grid-flow-col gap-4 border ">
-      <div className="topleft row-span-3 col-span-1 bg-white h-full pl-8 mr-4">
-        <span>
-          <img src={group} alt="Logo" className="mr-2 pt-4" />
-          <h2 className="text-2xl font-medium ml-6 font-bold text-[#4BCBEB]">
-            Task Manager List
-          </h2>
-          <hr className="ml-1 mr-4" />
-        </span>
-        <h2 className="text-black font-bold mt-8">MENU</h2>
-        <button className="flex flex-col pr-[100px] py-2 mt-4 hover:shadow-md">
-          <h2 className="text-[#4BCBEB] ml-2 font-bold">Dashboard</h2>
-        </button>
-        <button className="flex flex-col hover:text-[#4BCBEB] pr-[140px] hover:shadow-md py-2 mt-4">
-          <h2 className="font-bold ml-2">Users</h2>
-        </button>
-        <button className="flex flex-col hover:text-[#4BCBEB] pr-[140px] hover:shadow-md py-2 mt-4">
-          <h2 className="font-bold ml-2">Tasks</h2>
-        </button>
-        <button className="flex flex-col hover:text-[#4BCBEB] pr-[120px] hover:shadow-md py-2 mt-4">
-          <h2 className="font-bold ml-2">Settings</h2>
-        </button>
-      </div>
-      <div className="topright col-span-4 flex  bg-white h-24">
-          <h1 className="font-bold text-3xl ml-1 mt-8">Users</h1>
-          <div className="ml-auto flex items-center space-x-4">
-            <IoNotificationsOutline className="text-gray-400 size-[2rem]" />
-            <CgProfile className="text-gray-400 size-[2rem]" />
-            <div className="flex flex-col ml-4">
-              <h1 className="text-black">Usman Shahid</h1>
-              <h1>Status 200</h1>
+    // const toggleOptions = (taskId) => {
+    //     setShowOptions(!showOptions);
+    //     setSelectedTaskId(taskId);
+    // };
+    // const [currentPage, setCurrentPage] = useState(1);
+    // const tasksPerPage = 10;
+
+    const toggleOptions = (taskId) => {
+        setShowOptions((prevState) => ({
+            ...prevState,
+            [taskId]: !prevState[taskId]
+        }));
+        setSelectedTaskId(taskId);
+    };
+    const indexOfLastTask = currentPage * tasksPerPage;
+    const indexOfFirstTask = indexOfLastTask - tasksPerPage;
+    const currentTasks = tasks.slice(indexOfFirstTask, indexOfLastTask);
+
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+    return (
+        <div className="w-full h-full grid grid-rows-3 grid-flow-col gap-4">
+            {/* Sidebar */}
+            <div className="row-span-3 bg-[#FFFFFF] w-[320px] ">
+                <section className="flex items-center m-3 p-3 border border-gray-300 shadow-lg rounded">
+                    <span>
+                        <h2 className="text-1xl font-bold text-[#4BCBEB]">
+                            Task Manager List
+                        </h2>
+                    </span>
+                </section>
+                <div className="border-b border-[#F6F8FA] w-[10px]"></div>
+                <h1 className="m-5 text-lg pl-6 pt-5 font-bold ">Menu</h1>
+                <div className="m-4 text-lg pl-6 p-3  ">
+                    <Link to="/dashboard">Dashboard</Link>
+                </div>
+                <div className="m-4 text-lg pl-6 p-3 border-2  border-[#F6F8FA] font-bold text-[#4BCBEB] shadow-md rounded">
+                    <Link to="/Users">Users</Link>
+                </div>
+                <div className="m-4 text-lg pl-6 p-3 border-2  border-[#F6F8FA]">
+                    <Link to="/tasks">Tasks</Link>
+                </div>
+                <div className="m-4 text-lg pl-6 p-3 border-2  border-[#F6F8FA]">
+                    <Link to="/settings">Settings</Link>
+                </div>
             </div>
-          </div>
+            <div className="col-span-2">
+                {/* Dashboard */}
+                <div className="bg-[#FFFFFF] w-[1155px]  flex">
+                    <div className="text-3xl p-6 font-bold right">User's</div>
+                    <div className="left p-6 pl-[700px] size-max">
+                        <FontAwesomeIcon icon={faBell} />
+                    </div>
+                    <div className="right p-6 pl-[5px] ">
+                        <FontAwesomeIcon icon={faUser} />
+                    </div>
+                    <div className="p-5 pl-[3px] ">
+                        <Link to="/usmanshahid">Usman Shahid</Link>
+                        <p>Status 200</p>
+                    </div>
+                    <div className="p-6 pl-[2px] ">
+                        <FontAwesomeIcon icon={faGreaterThan} />
+                    </div>
+                </div>
+                {/* Bottom part */}
+                <div className="px:6 font-bold text-black ">Online User</div>
+                <section className="bg-gray-200 p-6 grid grid-rows-1 md:grid-rows-2 lg:grid-rows-3 gap-4">
+                    
+                    <table className="min-w-full divide-y divide-gray-200">
+                        <thead className="bg-gray-50">
+                            <tr>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-[#06183A]-500 text-[Poppins] font-bold">Customer Name</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-[#06183A]-500 tracking-wider text-[Poppins] font-bold">Project Name</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-[#06183A]-500 tracking-wider text-[Poppins] font-bold">Start Date</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-[#06183A]-500 tracking-wider text-[Poppins] font-bold">End Date</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-[#06183A]-500 tracking-wider text-[Poppins] font-bold">Overdue Date</th>
+                            </tr>
+                        </thead>
+                        <tbody className="bg-white divide-y divide-gray-200">
+                            {tasks.slice(0, 10).map((task) => (
+                                <tr key={task.id}>
+                                    <td className="px-6 py-4 whitespace-nowrap">
+                                        <div className="flex items-center">
+                                            <img src={task.customerImage} alt={task.customerName} className="w-8 h-8 rounded-full mr-2" />
+                                            <Link to={task.customerLink} className="text-sm font-medium text-[#4BCBEB] underline">{task.customerName}</Link>
+                                        </div>
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{task.projectName}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{task.startDate}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{task.endDate}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    
+                                        <div className="relative inline-block text-left">
+                                            {/* <span onClick={() => toggleOptions(task.id)} className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                                {showOptions && selectedTaskId === task.id && (
+                                                    <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                                                        <div className="py-1" role="none">
+                                                            <button className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-left" role="menuitem">Add</button>
+                                                            <button className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-left" role="menuitem">Delete</button>
+                                                            <button className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-left" role="menuitem">Delete</button>
+                                                        </div>
+                                                    </div>
+                                                )}
+                                                <svg className="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                                    <path fillRule="evenodd" d="M5 10a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm5 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm5 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z" clipRule="evenodd" />
+                                                </svg>
+                                            </span> */}
+                                            <span className="ml-1">{task.overdueDate}</span>
+                                            <span onClick={() => toggleOptions(task.id)} className="inline-flex flex-col items-center justify-center w-4 h-4 bg-white text-xs text-[#4BCBEB] hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+
+
+                                                {showOptions[task.id] && selectedTaskId === task.id &&(
+                                                    <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                                                        <div className="py-1" role="none">
+                                                            <button className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-right" role="menuitem">Add</button>
+                                                            <button className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-right" role="menuitem">Delete</button>
+                                                            <button className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-right" role="menuitem">Delete</button>
+                                                        </div>
+                                                    </div>
+                                                )}
+                                                <svg className="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                                    <path fillRule="evenodd" d="M5 10a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm5 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm5 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z" clipRule="evenodd" />
+                                                </svg>
+                                            </span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                    <div className="mt-4 flex justify-end">
+                        <button
+                            onClick={() => paginate(currentPage + 1)}
+                            disabled={indexOfLastTask >= tasks.length}
+                            className="bg-[#4BCBEB] text-white font-semibold py-2 px-4 rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
+                        >
+                            Next
+                        </button>
+                        </div>
+                </section>
+            </div>
         </div>
-      <div className="center row-span-2 col-span-2 pr-[400px] col-span-3 bg-white flex flex-col border rounded">
- <h1 className='font-bold ml-[50px] text-lg'>Online Users</h1>
-  <div className="grid  grid-cols-5  ">
-    <div>
-      <p className="font-medium ml-[50px]">Customer Name</p>
-    </div>
-    <div>
-      <p className="font-medium ml-[50px]">Project Name</p>
-    </div>
-    <div>
-      <p className="font-medium ml-[50px]">Task Start Date</p>
-    </div>
-    <div>
-      <p className="font-medium ml-[50px]">Task End Date:</p>
-    </div>
-    <div className="">
-      <p className="font-medium ml-[50px]">Overdue Days</p>
-    </div>
-  </div>
-
-
-  {userList.map((task) => (
-  <div key={task.id} className="grid grid-cols-5 p-2 ml-[70px] border-b ">
-    <div> <a className="text-blue-500 underline underline-offset-2" href='#'>{task.customerName}</a></div>
-    <div>{task.projectName}</div>
-    <div>{task.taskStartDate}</div>
-    <div>{task.taskEndDate}</div>
-    <div className="relative">
-      <div>{task.overdueDays} Day's</div>
-      <div className="relative flex items-center" onClick={() => handleDropdown(task.id)}>
-        {renderDropdown(task.id)}
-        <span className="absolute top-0 pb-7 right-0 cursor-pointer" style={{ transform: 'translate(-100%, -50%)', marginTop: 'auto', marginBottom: 'auto' }}>...</span>
-      </div>
-    </div>
-  </div>
-))}
-
-</div>
-
-
-
-    </div>
-  );
-};
+    );
+}
 
 export default Users;
