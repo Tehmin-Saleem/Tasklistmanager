@@ -24,7 +24,7 @@ function Tasks() {
       id: 2,
       title: "Task 2",
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      image: "https://picsum.photos/200", // Sample image URL
+      image: "https://picsum.photos/200", // dummy image URL
       startDate: "2024-04-20",
       endDate: "2024-05-01",
     },
@@ -32,7 +32,7 @@ function Tasks() {
       id: 2,
       title: "Task 2",
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      image: "https://picsum.photos/200", // Sample image URL
+      image: "https://picsum.photos/200", // dummy image URL
       startDate: "2024-04-20",
       endDate: "2024-05-01",
     },
@@ -40,7 +40,7 @@ function Tasks() {
       id: 2,
       title: "Task 2",
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      image: "https://picsum.photos/200", // Sample image URL
+      image: "https://picsum.photos/200", // dummy image URL
       startDate: "2024-04-20",
       endDate: "2024-05-01",
     },
@@ -48,7 +48,7 @@ function Tasks() {
       id: 2,
       title: "Task 2",
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      image: "https://picsum.photos/200", // Sample image URL
+      image: "https://picsum.photos/200", // dummy image URL
       startDate: "2024-04-20",
       endDate: "2024-05-01",
     },
@@ -56,11 +56,11 @@ function Tasks() {
       id: 2,
       title: "Task 2",
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      image: "https://picsum.photos/200", // Sample image URL
+      image: "https://picsum.photos/200", // dummy image URL
       startDate: "2024-04-20",
       endDate: "2024-05-01",
     },
-    // Add more tasks as needed
+  
   ];
 
   const [showOptions, setShowOptions] = useState({});
@@ -81,7 +81,7 @@ function Tasks() {
   };
   const handleEditClick = (taskId) => {
     setSelectedTaskId(taskId);
-    setShowEditForm(true); // Set showEditForm to true
+    setShowEditForm(true); 
   };
   
   const handleAddClick = (taskId) => {
@@ -93,13 +93,13 @@ function Tasks() {
   };
 return (
     <div className=" w-full h-full grid grid-rows-3 grid-flow-col gap-4">
-      {/*================================== This is sidebar============================= */}
+    
       
       
       
       <div class="row-span-3 bg-[#FFFFFF] w-[320px] ">
         <section className="flex items-center m-3 p-3 border border-gray-300 shadow-lg rounded">
-          {/* <img src={Task} alt="Logo" className="mr-2 px-2" /> */}
+          
           <span>
             <h2 className="text-1xl font-bold text-[#4BCBEB]">
               Task Manager List
@@ -108,7 +108,7 @@ return (
         </section>
         <div class="border-b border-[#F6F8FA] w-[10px]"></div>
         <h1 className="m-5 text-lg pl-6 pt-5 font-bold ">Menu</h1>
-        {/* <Link to="/dashboard">Dashboard</Link> */}
+      
         <div className="m-4 text-lg pl-6 p-3  ">
           <Link to="/dashboard">Dashboard</Link>
         </div>
@@ -121,17 +121,16 @@ return (
         <div className="m-4 text-lg pl-6 p-3 border-2  border-[#F6F8FA]">
           <Link to="/settings">Settings</Link>
         </div>
-        {/* <FA icon={faDashboard} /> */}
-        {/* <h2 className="text-3xl font-bold text-white">Task Manager List</h2> */}
+
       </div>
 
 
-{/* masla============================================================================ */}
+
      
      
      
       <div className="col-span-2">
-        {/*================================================================ this is Dashboard */}
+   
             <div className="bg-[#FFFFFF] w-[1155px]  flex">
                 <div className=" text-3xl p-6 font-bold right">Task</div>
                     <div className="left p-6 pl-[700px] size-max">
@@ -150,7 +149,7 @@ return (
             </div>
             
             
-        {/*============================================================= This is bottom part */}
+       
 
         <section className="bg-[#ECE6E6] row-span-2 col-span-2">
          <div className="flex flex-nowrap">
