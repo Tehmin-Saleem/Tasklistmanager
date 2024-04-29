@@ -1,12 +1,9 @@
 import React, { useState } from "react";
-
+import { IoNotificationsOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBell,
-  faUser,
-  faGreaterThan,
-} from "@fortawesome/free-solid-svg-icons";
+import group from "../Images/Group.png"
+import { CgProfile } from "react-icons/cg";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import AddTask from "./AddTask";
 import EditTask from "./EditTask";
@@ -67,11 +64,12 @@ function Tasks() {
   const [selectedTaskId, setSelectedTaskId] = useState(null);
 
   const toggleOptions = (taskId) => {
+    setSelectedTaskId(taskId);
   setShowOptions((prevOptions) => ({
     ...prevOptions,
     [taskId]: !prevOptions[taskId],
   }));
-  setSelectedTaskId(taskId);
+ 
 };
   
   const [showForm, setShowForm] = useState(false);
@@ -92,19 +90,21 @@ function Tasks() {
     setTasks(tasks.filter((task) => task.id !== taskId));
   };
 return (
-    <div className=" w-full h-full grid grid-rows-3 grid-flow-col gap-4">
+    <div className=" w-[1020px] h-[200px] bg-white  grid grid-rows-3 grid-flow-col gap-4">
     
       
       
       
-      <div class="row-span-3 bg-[#FFFFFF] w-[320px] ">
-        <section className="flex items-center m-3 p-3 border border-gray-300 shadow-lg rounded">
+      <div class="row-span-3 bg-[#FFFFFF] w-[320px]  ">
+        <section className="flex items-center m-3 p-3  ">
           
-          <span>
-            <h2 className="text-1xl font-bold text-[#4BCBEB]">
-              Task Manager List
-            </h2>
-          </span>
+        <span className="flex items-center  ">
+          <img src={group} alt="Logo" className="mr-2 px-2" />
+          <h2 className="text-2xl font-medium  font-bold text-[#4BCBEB]">
+            Task Manager List
+          </h2>
+          <hr className="ml-1 mr-4" />
+        </span>
         </section>
         <div class="border-b border-[#F6F8FA] w-[10px]"></div>
         <h1 className="m-5 text-lg pl-6 pt-5 font-bold ">Menu</h1>
@@ -129,29 +129,25 @@ return (
      
      
      
-      <div className="col-span-2">
+      <div className="col-span-2 ">
    
-            <div className="bg-[#FFFFFF] w-[1155px]  flex">
-                <div className=" text-3xl p-6 font-bold right">Task</div>
-                    <div className="left p-6 pl-[700px] size-max">
-                    <FontAwesomeIcon icon={faBell} />
-                </div>
-          <div className="right p-6 pl-[5px] ">
-            <FontAwesomeIcon icon={faUser} />
+          
+      <div className="topright col-span-4 flex  bg-white h-24">
+        <h1 className="font-bold text-3xl ml-7 mt-8">Task</h1>
+        <div className="ml-auto flex items-center space-x-4">
+          <IoNotificationsOutline className="text-gray-400 size-[2rem]" />
+          <CgProfile className="text-gray-400 size-[2rem]" />
+          <div className="flex flex-col ml-4">
+            <h1 className="text-black">Usman Shahid</h1>
+            <h1>Status 200</h1>
           </div>
-          <div className="p-5 pl-[3px] ">
-            <Link to="/usmanshahid">Usman Shahid</Link>
-            <p>Status 200</p>
-          </div>
-          <div className="p-6 pl-[2px] ">
-            <FontAwesomeIcon icon={faGreaterThan} />
-          </div>
-            </div>
+        </div>
+      </div>
             
             
        
 
-        <section className="bg-[#ECE6E6] row-span-2 col-span-2">
+        <section className="bg-gray-100 row-span-2 col-span-2 w-[1013px]">
          <div className="flex flex-nowrap">
             <div className="p-8 m-3">
               <h2 className=" text-xl font-bold">Start date: </h2>
@@ -159,7 +155,7 @@ return (
                 type="input"
                 id="dateInput"
                 placeholder="15-Apr-2024"
-                className="m-2 border-2 border-[#4BCBEB] rounded p-1"
+                className="m-2 border border-[#4BCBEB] rounded p-1"
               />
             </div>
             <div className="p-8 m-3">
@@ -168,39 +164,40 @@ return (
                 type="input"
                 id="dateInput"
                 placeholder="15-Apr-2024"
-                className="m-2 border-2 border-[#4BCBEB] rounded p-1"
+                className="m-2 border border-[#4BCBEB] rounded p-1"
               />
             </div>
             {showForm && <AddTask onClose={toggleForm} />}
             {showEditForm && <EditTask onClose={() => setShowEditForm(false)} />}
-            <div className="flex-1 text-white bg-[#4BCBEB] rounded-lg ml-[300px] h-[34px] w-[5px] m-[70px] text-center p-2">
-              <button onClick={toggleForm}>Add Task</button>
+            <div className="flex-1 text-white bg-[#4BCBEB] rounded-lg  h-[34px]  mt-[80px] ml-[250px] ">
+              <button className="ml-[60px] mt-1" onClick={toggleForm}>Add Task</button>
             </div>
           </div>
-          <div className="flex ">
+          <div className="flex bg-gray-100 w-[1011px] ">
             <div className="pl-12 m-3 flex-1 ">
               <h2 className=" text-xl font-bold ">Enter Title: </h2>
               <input
                 type="input"
                 id="dateInput"
-                placeholder="15-Apr-2024"
-                className="m-2 border-2 border-[#4BCBEB] rounded p-1"
+                
+                className="m-2 border border-[#4BCBEB] rounded p-1"
               />
             </div>
-            <div className="flex-1 text-white bg-[#4BCBEB] rounded-lg mr-[800px] h-[34px] w-[90px]  text-center p-2 mt-12">
+            <div className="flex text-white bg-[#4BCBEB] rounded-lg mr-[1000px] h-[34px] w-[90px]  text-center p-2 mt-12">
               <button>Search</button>
             </div>
           </div>
          
          
          
-          <div className="bg-gray-200 p-2 grid  grid-cols-3 gap-4">
+          <div className="bg-gray-100 p-2 grid  grid-cols-3 gap-4 w-[1000px]">
             
             {tasks.map((task) => (
               <div
                 key={task.id}
                 className="bg-white rounded-lg p-4 shadow-md relative"
               >
+              
                 <h1 className="text-lg font-bold">Title</h1>
                 <h3>{task.title}</h3>
                 <h1 className="text-lg font-bold">Description</h1>

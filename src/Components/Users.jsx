@@ -1,12 +1,9 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { CgProfile } from "react-icons/cg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-import {
-  faBell,
-  faUser,
-  faGreaterThan,
-} from "@fortawesome/free-solid-svg-icons";
+import { IoNotificationsOutline } from "react-icons/io5";
+import group from "../Images/Group.png"
 function Users() {
   const tasks = [
     {
@@ -17,7 +14,7 @@ function Users() {
       projectName: "Project X",
       startDate: "2024-04-19",
       endDate: "2024-04-30",
-      overdueDate: "2024-05-05",
+      overdueDays: "5",
     },
     {
       id: 1,
@@ -27,7 +24,7 @@ function Users() {
       projectName: "Project X",
       startDate: "2024-04-19",
       endDate: "2024-04-30",
-      overdueDate: "2024-05-05",
+      overdueDays: "5",
     },
     {
       id: 1,
@@ -37,7 +34,7 @@ function Users() {
       projectName: "Project X",
       startDate: "2024-04-19",
       endDate: "2024-04-30",
-      overdueDate: "2024-05-05",
+      overdueDays: "5",
     },
     {
       id: 1,
@@ -47,7 +44,7 @@ function Users() {
       projectName: "Project X",
       startDate: "2024-04-19",
       endDate: "2024-04-30",
-      overdueDate: "2024-05-05",
+      overdueDays: "5",
     },
     {
       id: 1,
@@ -57,7 +54,7 @@ function Users() {
       projectName: "Project X",
       startDate: "2024-04-19",
       endDate: "2024-04-30",
-      overdueDate: "2024-05-05",
+      overdueDays: "5",
     },
     {
       id: 1,
@@ -67,7 +64,7 @@ function Users() {
       projectName: "Project X",
       startDate: "2024-04-19",
       endDate: "2024-04-30",
-      overdueDate: "2024-05-05",
+      overdueDays: "5",
     },
     {
       id: 1,
@@ -77,7 +74,7 @@ function Users() {
       projectName: "Project X",
       startDate: "2024-04-19",
       endDate: "2024-04-30",
-      overdueDate: "2024-05-05",
+      overdueDays: "5",
     },
     {
       id: 1,
@@ -87,7 +84,7 @@ function Users() {
       projectName: "Project X",
       startDate: "2024-04-19",
       endDate: "2024-04-30",
-      overdueDate: "2024-05-05",
+      overdueDays: "5",
     },
     {
       id: 1,
@@ -97,15 +94,14 @@ function Users() {
       projectName: "Project X",
       startDate: "2024-04-19",
       endDate: "2024-04-30",
-      overdueDate: "2024-05-05",
+      overdueDays: "5",
     },
     // Add more tasks as needed
   ];
 
   const [showOptions, setShowOptions] = useState(false);
   const [selectedTaskId, setSelectedTaskId] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const tasksPerPage = 10;
+  
 
   const toggleOptions = (taskId) => {
     setShowOptions((prevState) => ({
@@ -114,23 +110,23 @@ function Users() {
     }));
     setSelectedTaskId(taskId);
   };
-  const indexOfLastTask = currentPage * tasksPerPage;
-  const indexOfFirstTask = indexOfLastTask - tasksPerPage;
-  const currentTasks = tasks.slice(indexOfFirstTask, indexOfLastTask);
+  
 
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
 
   return (
-    <div className="w-full h-full grid grid-rows-3 grid-flow-col gap-4">
+    <div className="w-full h-[200px] grid grid-rows-3 grid-flow-col gap-4">
       <div className="row-span-3 bg-[#FFFFFF] w-[320px] ">
-        <section className="flex items-center m-3 p-3 border border-gray-300 shadow-lg rounded">
-          <span>
-            <h2 className="text-1xl font-bold text-[#4BCBEB]">
-              Task Manager List
-            </h2>
-          </span>
+      <section className="flex items-center m-3 p-3  ">
+        <span className="flex items-center  ">
+          <img src={group} alt="Logo" className="mr-2 px-2" />
+          <h2 className="text-2xl font-medium  font-bold text-[#4BCBEB]">
+            Task Manager List
+          </h2>
+          <hr className="ml-1 mr-4" />
+        </span>
         </section>
-        <div className="border-b border-[#F6F8FA] w-[10px]"></div>
+        <div className="border-b border-[#F6F8FA] w-[10px] bg-black"></div>
         <h1 className="m-5 text-lg pl-6 pt-5 font-bold ">Menu</h1>
         <div className="m-4 text-lg pl-6 p-3  ">
           <Link to="/Dashboard">Dashboard</Link>
@@ -145,43 +141,40 @@ function Users() {
           <Link to="/settings">Settings</Link>
         </div>
       </div>
-      <div className="col-span-2">
-        <div className="bg-[#FFFFFF] w-[1155px]  flex">
-          <div className="text-3xl p-6 font-bold right">User's</div>
-          <div className="left p-6 pl-[700px] size-max">
-            <FontAwesomeIcon icon={faBell} />
-          </div>
-          <div className="right p-6 pl-[5px] ">
-            <FontAwesomeIcon icon={faUser} />
-          </div>
-          <div className="p-5 pl-[3px] ">
-            <Link to="/usmanshahid">Usman Shahid</Link>
-            <p>Status 200</p>
-          </div>
-          <div className="p-6 pl-[2px] ">
-            <FontAwesomeIcon icon={faGreaterThan} />
+      <div className="col-span-2 ">
+      
+      <div className="topright col-span-4 flex  bg-white h-24">
+        <h1 className="font-bold text-3xl ml-7 mt-8">User's</h1>
+        <div className="ml-auto flex items-center space-x-4">
+          <IoNotificationsOutline className="text-gray-400 size-[2rem]" />
+          <CgProfile className="text-gray-400 size-[2rem]" />
+          <div className="flex flex-col ml-4">
+            <h1 className="text-black">Usman Shahid</h1>
+            <h1>Status 200</h1>
           </div>
         </div>
+      </div>
 
-        <div className="px:6 font-bold text-black ">Online User</div>
-        <section className="bg-gray-200 p-6 grid grid-rows-1 md:grid-rows-2 lg:grid-rows-3 gap-4">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+        
+        <section className="bg-white p-6 grid grid-rows-1 md:grid-rows-2 lg:grid-rows-3 gap-4 h-[200px]">
+        <div className="px:6 font-bold text-black text-2xl">Online User</div>
+          <table className="min-w-full ">
+            <thead >
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-[#06183A]-500 text-[Poppins] font-bold">
+                <th className="px-6 py-3 text-left text-lg font-medium text-[#06183A]-500 text-[Poppins] font-bold">
                   Customer Name
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-[#06183A]-500 tracking-wider text-[Poppins] font-bold">
+                <th className="px-6 py-3 text-left text-lg font-medium text-[#06183A]-500 tracking-wider text-[Poppins] font-bold">
                   Project Name
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-[#06183A]-500 tracking-wider text-[Poppins] font-bold">
+                <th className="px-6 py-3 text-left text-lg font-medium text-[#06183A]-500 tracking-wider text-[Poppins] font-bold">
                   Start Date
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-[#06183A]-500 tracking-wider text-[Poppins] font-bold">
+                <th className="px-6 py-3 text-left text-lg font-medium text-[#06183A]-500 tracking-wider text-[Poppins] font-bold">
                   End Date
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-[#06183A]-500 tracking-wider text-[Poppins] font-bold">
-                  Overdue Date
+                <th className="px-6 py-3 text-left text-lg font-medium text-[#06183A]-500 tracking-wider text-[Poppins] font-bold">
+                  Overdue Days
                 </th>
               </tr>
             </thead>
@@ -214,39 +207,42 @@ function Users() {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     <div className="relative inline-block text-left">
-                      <span className="ml-1">{task.overdueDate}</span>
+                      <span className="ml-1">{task.overdueDays}</span>
                       <span
                         onClick={() => toggleOptions(task.id)}
-                        className="inline-flex flex-col items-center justify-center w-4 h-4 bg-white text-xs text-[#4BCBEB] hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        className="inline-flex flex-col items-center justify-center w-4 h-4 bg-white pl-[100px] text-xs text-[#4BCBEB] hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                       >
                         {showOptions[task.id] && selectedTaskId === task.id && (
-                          <div
-                            className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
-                            role="menu"
-                            aria-orientation="vertical"
-                            aria-labelledby="options-menu"
-                          >
-                            <div className="py-1" role="none">
-                              <button
-                                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-right"
-                                role="menuitem"
-                              >
-                                Add
-                              </button>
-                              <button
-                                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-right"
-                                role="menuitem"
-                              >
-                                Delete
-                              </button>
-                              <button
-                                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-right"
-                                role="menuitem"
-                              >
-                                Delete
-                              </button>
-                            </div>
-                          </div>
+                           <div
+                           className="absolute  mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
+                           role="menu"
+                           aria-orientation="horizontal"
+                           aria-labelledby="options-menu"
+                         >
+                           <div className="py-1" role="none">
+                             <button
+                               className="block px-4  text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-right"
+                               role="menuitem"
+                               
+                             >
+                               Add
+                             </button>
+                             <button
+                               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-right"
+                               role="menuitem"
+                              
+                             >
+                               Delete
+                             </button>
+                             <button
+                               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-right"
+                               role="menuitem"
+                              
+                             >
+                               Edit
+                             </button>
+                           </div>
+                         </div>
                         )}
                         <svg
                           className="h-5 w-5"
@@ -268,15 +264,7 @@ function Users() {
               ))}
             </tbody>
           </table>
-          <div className="mt-4 flex justify-end">
-            <button
-              onClick={() => paginate(currentPage + 1)}
-              disabled={indexOfLastTask >= tasks.length}
-              className="bg-[#4BCBEB] text-white font-semibold py-2 px-4 rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
-            >
-              Next
-            </button>
-          </div>
+         
         </section>
       </div>
     </div>
