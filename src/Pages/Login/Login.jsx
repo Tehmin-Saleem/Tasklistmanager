@@ -104,7 +104,7 @@ function Login() {
             <span>
               <a
                 className="text-[#4BCBEB]  pl-1 font-[900] text-lg hover:underline hover:underline-offset-4 "
-                href="#"
+                href="/signup"
               >
                 Sign Up
               </a>

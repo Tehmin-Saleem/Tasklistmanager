@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { IoNotificationsOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import group from "../Images/Group.png"
+import group from "../Images/Group.png";
 import { CgProfile } from "react-icons/cg";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import AddTask from "./AddTask";
 import EditTask from "./EditTask";
+import DeleteForm from "./DeleteForm";
 function Tasks() {
   const tasks = [
     {
@@ -57,7 +58,6 @@ function Tasks() {
       startDate: "2024-04-20",
       endDate: "2024-05-01",
     },
-  
   ];
 
   const [showOptions, setShowOptions] = useState({});
@@ -65,50 +65,48 @@ function Tasks() {
 
   const toggleOptions = (taskId) => {
     setSelectedTaskId(taskId);
-  setShowOptions((prevOptions) => ({
-    ...prevOptions,
-    [taskId]: !prevOptions[taskId],
-  }));
- 
-};
-  
+    setShowOptions((prevOptions) => ({
+      ...prevOptions,
+      [taskId]: !prevOptions[taskId],
+    }));
+  };
+
   const [showForm, setShowForm] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
+  const [showDeleteForm, setShowDeleteForm] = useState(false);
   const toggleForm = () => {
     setShowForm(!showForm);
   };
   const handleEditClick = (taskId) => {
     setSelectedTaskId(taskId);
-    setShowEditForm(true); 
+    setShowEditForm(true);
   };
-  
+
   const handleAddClick = (taskId) => {
     setSelectedTaskId(taskId);
     setShowForm(true);
   };
+
   const handleDeleteClick = (taskId) => {
-    setTasks(tasks.filter((task) => task.id !== taskId));
+    setSelectedTaskId(taskId);
+    setShowDeleteForm(true);
+    // setTasks(tasks.filter((task) => task.id !== taskId));
   };
-return (
+  return (
     <div className=" w-[1020px] h-[200px] bg-white  grid grid-rows-3 grid-flow-col gap-4">
-    
-      
-      
-      
       <div class="row-span-3 bg-[#FFFFFF] w-[320px]  ">
         <section className="flex items-center m-3 p-3  ">
-          
-        <span className="flex items-center  ">
-          <img src={group} alt="Logo" className="mr-2 px-2" />
-          <h2 className="text-2xl font-medium  font-bold text-[#4BCBEB]">
-            Task Manager List
-          </h2>
-          <hr className="ml-1 mr-4" />
-        </span>
+          <span className="flex items-center  ">
+            <img src={group} alt="Logo" className="mr-2 px-2" />
+            <h2 className="text-2xl font-medium  font-bold text-[#4BCBEB]">
+              Task Manager List
+            </h2>
+            <hr className="ml-1 mr-4" />
+          </span>
         </section>
         <div class="border-b border-[#F6F8FA] w-[10px]"></div>
         <h1 className="m-5 text-lg pl-6 pt-5 font-bold ">Menu</h1>
-      
+
         <div className="m-4 text-lg pl-6 p-3  ">
           <Link to="/dashboard">Dashboard</Link>
         </div>
@@ -121,34 +119,23 @@ return (
         <div className="m-4 text-lg pl-6 p-3 border-2  border-[#F6F8FA]">
           <Link to="/settings">Settings</Link>
         </div>
-
       </div>
 
-
-
-     
-     
-     
       <div className="col-span-2 ">
-   
-          
-      <div className="topright col-span-4 flex  bg-white h-24">
-        <h1 className="font-bold text-3xl ml-7 mt-8">Task</h1>
-        <div className="ml-auto flex items-center space-x-4">
-          <IoNotificationsOutline className="text-gray-400 size-[2rem]" />
-          <CgProfile className="text-gray-400 size-[2rem]" />
-          <div className="flex flex-col ml-4">
-            <h1 className="text-black">Usman Shahid</h1>
-            <h1>Status 200</h1>
+        <div className="topright col-span-4 flex  bg-white h-24">
+          <h1 className="font-bold text-3xl ml-7 mt-8">Task</h1>
+          <div className="ml-auto flex items-center space-x-4">
+            <IoNotificationsOutline className="text-gray-400 size-[2rem]" />
+            <CgProfile className="text-gray-400 size-[2rem]" />
+            <div className="flex flex-col ml-4">
+              <h1 className="text-black">Usman Shahid</h1>
+              <h1>Status 200</h1>
+            </div>
           </div>
         </div>
-      </div>
-            
-            
-       
 
         <section className="bg-gray-100 row-span-2 col-span-2 w-[1013px]">
-         <div className="flex flex-nowrap">
+          <div className="flex flex-nowrap">
             <div className="p-8 m-3">
               <h2 className=" text-xl font-bold">Start date: </h2>
               <input
@@ -168,9 +155,16 @@ return (
               />
             </div>
             {showForm && <AddTask onClose={toggleForm} />}
-            {showEditForm && <EditTask onClose={() => setShowEditForm(false)} />}
+            {showEditForm && (
+              <EditTask onClose={() => setShowEditForm(false)} />
+            )}
+            {showDeleteForm && (
+              <DeleteForm onClose={() => setShowDeleteForm(false)} />
+            )}
             <div className="flex-1 text-white bg-[#4BCBEB] rounded-lg  h-[34px]  mt-[80px] ml-[250px] ">
-              <button className="ml-[60px] mt-1" onClick={toggleForm}>Add Task</button>
+              <button className="ml-[60px] mt-1" onClick={toggleForm}>
+                Add Task
+              </button>
             </div>
           </div>
           <div className="flex bg-gray-100 w-[1011px] ">
@@ -179,7 +173,6 @@ return (
               <input
                 type="input"
                 id="dateInput"
-                
                 className="m-2 border border-[#4BCBEB] rounded p-1"
               />
             </div>
@@ -187,17 +180,13 @@ return (
               <button>Search</button>
             </div>
           </div>
-         
-         
-         
+
           <div className="bg-gray-100 p-2 grid  grid-cols-3 gap-4 w-[1000px]">
-            
             {tasks.map((task) => (
               <div
                 key={task.id}
                 className="bg-white rounded-lg p-4 shadow-md relative"
               >
-              
                 <h1 className="text-lg font-bold">Title</h1>
                 <h3>{task.title}</h3>
                 <h1 className="text-lg font-bold">Description</h1>
@@ -254,15 +243,10 @@ return (
                 </span>
               </div>
             ))}
-
-
-
-
-                </div>
-            </section>
-        </div>
-        </div>
-      
+          </div>
+        </section>
+      </div>
+    </div>
   );
 }
 export default Tasks;

@@ -132,7 +132,7 @@ function Dashboard() {
 
       <div className="topright col-span-4 flex  bg-white h-24">
         <h1 className="font-bold text-3xl ml-7 mt-8">Dashboard</h1>
-        <div className="ml-auto flex items-center space-x-4">
+        <div className="ml-auto flex items-center space-x-4 ">
           <IoNotificationsOutline className="text-gray-400 size-[2rem]" />
           <CgProfile className="text-gray-400 size-[2rem]" />
           <div className="flex flex-col ml-4">
@@ -141,7 +141,7 @@ function Dashboard() {
           </div>
         </div>
       </div>
-      <section className="bg-white row-span-2 col-span-2 m-3 ">
+      <section className="bg-red-200 w-[1005px] row-span-2 col-span-2 m-3 ">
         <h1 className="font-bold text-lg  col-span-4">Analytics</h1>
         <hr className="col-span-4" />
 
@@ -184,8 +184,8 @@ function Dashboard() {
           </div>
         </section>
 
-        <section className=" bg-slate-300 grid grid-cols-2  col-auto">
-          <div className="flex-1 bg-white p-4 ">
+        <section className=" bg-slate-300 grid grid-cols-2  col-auto ">
+          <div className="flex-1 bg-black p-4  ">
             <div className=" flex">
               <h1 className="text-2xl font-bold p-6 m-1">Total Task Ratio </h1>
               <span className="dropdownbutton text-[#4BCBEB] pl-[100px] font-bold mt-[90px]">

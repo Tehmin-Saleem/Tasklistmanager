@@ -125,8 +125,8 @@ function SignUp() {
             Already have an account?
             <span>
               <button
-                className="text-[#4BCBEB] pl-1 font-[900] text-lg  "
-                href="#"
+                className="text-[#4BCBEB] pl-1 font-[800] text-lg  "
+                href="/login"
               >
                 Log In
               </button>
