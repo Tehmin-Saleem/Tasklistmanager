@@ -1,4 +1,10 @@
-export const LOGIN_USER = 'LOGIN_USER';
-export const LOGOUT_USER = 'LOGOUT_USER';
-export const SIGNUP_USER='SIGNUP_USER'
-export const SET_USER_CREDENTIALS = 'SET_USER_CREDENTIALS';
+
+
+// Action types for user authentication
+export const SET_USER='SET_USER';
+export const LOGOUT = 'LOGOUT';
+// export const LOGIN='LOGIN';
+// export const SIGNUP ='SIGNUP';
+
+export const AUTH_ERROR = 'AUTH_ERROR';
+

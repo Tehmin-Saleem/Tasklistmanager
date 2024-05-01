@@ -1,37 +1,44 @@
+// actions.js
+
 import {
-  LOGIN_USER,
-  LOGOUT_USER,
-  SIGNUP_USER,
-  FETCH_USER,
-  SET_USER_CREDENTIALS,
-} from "../Redux/ActionTypes";
+  SET_USER,
+  AUTH_ERROR,
+  LOGOUT,
+ 
 
-export const loginUser = () => {
-  return {
-    type: LOGIN_USER,
-  };
-};
-export const fetchUser = (res) => {
-  return {
-    type: FETCH_USER,
-    payload: res,
-  };
-};
-export const signupUser = () => {
-  return {
-    type: SIGNUP_USER,
-  };
-};
+} from './ActionTypes';
 
-export const logoutUser = () => {
-  return {
-    type: LOGOUT_USER,
+// Assuming you have a function to make API requests, such as axios
+import axios from 'axios';
+
+export const signup = (userData) => {
+  return async (dispatch) => {
+    try {
+      // Make API call to signup endpoint
+      const response = await axios.post('/api/signup', userData);
+      // Dispatch action to update Redux state with user data
+      dispatch({ type: SET_USER, payload: response.data });
+    } catch (error) {
+      // Handle signup error
+      dispatch({ type: AUTH_ERROR, payload: error.response.data });
+    }
   };
 };
 
-export const setUserCredentials = (username, password) => {
-  return {
-    type: SET_USER_CREDENTIALS,
-    payload: { username, password },
+export const login = (userData) => {
+  return async (dispatch) => {
+    try {
+      // Make API call to login endpoint
+      const response = await axios.post('/api/login', userData);
+      // Dispatch action to update Redux state with user data
+      dispatch({ type: SET_USER, payload: response.data });
+    } catch (error) {
+      // Handle login error
+      dispatch({ type: AUTH_ERROR, payload: error.response.data });
+    }
   };
+};
+
+export const logout = () => {
+  return { type: LOGOUT };
 };

@@ -1,46 +1,35 @@
-import {
-  LOGIN_USER,
-  LOGOUT_USER,
-  FETCH_USER,
-  SET_USER_CREDENTIALS,
-} from "../Redux/ActionTypes";
-
 const initialState = {
-  loggedIn: false,
-  userData: null,
-  username: "",
-  password: "",
+  user: null,
+  isAuthenticated: false,
+  error: null,
 };
 
-const reducer = (state = initialState, action) => {
+const Reducers = (state = initialState, action) => {
   switch (action.type) {
-    case LOGIN_USER:
+    case 'SET_USER':
       return {
         ...state,
-        loggedIn: true,
+        user: action.payload,
+        isAuthenticated: true,
+        error: null,
       };
-    case LOGOUT_USER:
+    case 'AUTH_ERROR':
       return {
         ...state,
-        loggedIn: false,
-        userData: null,
-        username: "",
-        password: "",
+        user: null,
+        isAuthenticated: false,
+        error: action.payload,
       };
-    case FETCH_USER:
+    case 'LOGOUT':
       return {
         ...state,
-        userData: action.payload,
-      };
-    case SET_USER_CREDENTIALS:
-      return {
-        ...state,
-        username: action.payload.username,
-        password: action.payload.password,
+        user: null,
+        isAuthenticated: false,
+        error: null,
       };
     default:
       return state;
   }
 };
 
-export default reducer;
+export default Reducers;
