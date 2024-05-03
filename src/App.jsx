@@ -14,8 +14,8 @@ import MyCalendar from "./Components/Calender";
 function App() {
   return (
     <>
-<MyCalendar/>
-<Chart/>
+{/* <MyCalendar/>
+<Chart/> */}
       <Router>
        
         <Routes>
