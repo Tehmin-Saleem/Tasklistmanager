@@ -139,9 +139,9 @@ function Dashboard() {
           </div>
         </div>
       </div>
-      <div className="bg-red-200 w-[1017px] row-span-2 col-span-2 m-3 ">
-        <h1 className="font-bold text-lg  col-span-4">Analytics</h1>
-        <hr className="col-span-4" />
+      <div className="bg-white w-[1017px] row-span-2 col-span-2 m-3 ">
+        <h1 className="font-bold text-2xl  col-span-4 ml-5 mb-8">Analytics</h1>
+        <hr className="col-span-4 ml-5 pr-3" />
 
         <div className="  grid grid-cols-4 gap-4">
           <div className=" bg-[#F4F2FF]  m-4 rounded-2xl  p-4">

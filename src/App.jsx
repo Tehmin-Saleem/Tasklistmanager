@@ -8,13 +8,16 @@ import ResetPassword from "./Pages/Password/ResetPassword";
 import Users from "./Components/Users";
 import Dashboard from "./Components/Dashboard";
 import Updatepass from "./Pages/Password/Updatepass";
+
+import Chart  from "./Components/Chart";
+import MyCalendar from "./Components/Calender";
 function App() {
   return (
     <>
+<MyCalendar/>
+<Chart/>
       <Router>
-        <ul className="App-header">
-         
-        </ul>
+       
         <Routes>
           <Route path="/" element={<Login />}></Route>
           
