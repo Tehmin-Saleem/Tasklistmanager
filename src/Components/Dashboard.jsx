@@ -19,7 +19,6 @@ function Dashboard() {
 
   const handleSelectChange = (e) => {
     setSelectedOption(e.target.value);
-    // You can add logic here to handle the selected option
   };
   const chartRef = useRef(null);
   const [myChart, setMyChart] = useState(null);
@@ -75,12 +74,11 @@ function Dashboard() {
           },
           plugins: {
             legend: {
-              display: false, // Hide legend
+              display: false,
             },
           },
           responsive: true,
           onResize: (chart) => {
-            // Set chart ready when resized
             if (
               chart.scales &&
               chart.scales["x"] &&
@@ -93,7 +91,7 @@ function Dashboard() {
       });
     }
 
-    setMyChart(newChart); // Set the new chart instance
+    setMyChart(newChart);
 
     return () => {
       // Cleanup function to destroy the chart when the component unmounts
@@ -130,7 +128,7 @@ function Dashboard() {
         </div>
       </div>
 
-      <div className="topright col-span-4 flex  bg-white h-24">
+      <div className="toprightdiv bg-[#FFFFFF] w-[1025px] flex m-1  border-gray-100 shadow-lg rounded h-32">
         <h1 className="font-bold text-3xl ml-7 mt-8">Dashboard</h1>
         <div className="ml-auto flex items-center space-x-4 ">
           <IoNotificationsOutline className="text-gray-400 size-[2rem]" />
@@ -141,11 +139,11 @@ function Dashboard() {
           </div>
         </div>
       </div>
-      <section className="bg-red-200 w-[1005px] row-span-2 col-span-2 m-3 ">
+      <div className="bg-red-200 w-[1017px] row-span-2 col-span-2 m-3 ">
         <h1 className="font-bold text-lg  col-span-4">Analytics</h1>
         <hr className="col-span-4" />
 
-        <section className="  grid grid-cols-4 gap-4">
+        <div className="  grid grid-cols-4 gap-4">
           <div className=" bg-[#F4F2FF]  m-4 rounded-2xl  p-4">
             <h1 className="text-black font-bold    ">Total Tasks</h1>
             <h1 className="text-lg font-bold mx-4 pb-6 mb-3 pt-3 text-gray-600">
@@ -182,32 +180,34 @@ function Dashboard() {
               <ProgressBar completed="10" />
             </div>
           </div>
-        </section>
+        </div>
 
-        <section className=" bg-slate-300 grid grid-cols-2  col-auto ">
-          <div className="flex-1 bg-black p-4  ">
-            <div className=" flex">
-              <h1 className="text-2xl font-bold p-6 m-1">Total Task Ratio </h1>
-              <span className="dropdownbutton text-[#4BCBEB] pl-[100px] font-bold mt-[90px]">
-                <select value={selectedOption} onChange={handleSelectChange}>
-                  <option value="Weekly">Weekly</option>
-                  <option value="Monthly">Monthly</option>
-                  <option value="Daily">Daily</option>
-                </select>
-              </span>
-            </div>
+        {/* <div className=" bg-slate-300 grid grid-cols-2  col-2 row-1 mt-[100px] "> */}
+        <div className="flex-1 bg-white p-4 row-span-1 col-span-2  ">
+          <div className=" ">
+            <h1 className="text-2xl font-bold p-6 m-1">Total Task Ratio </h1>
+            <span className="dropdownbutton text-[#4BCBEB] pl-[350px] font-bold mb-8">
+              <select value={selectedOption} onChange={handleSelectChange}>
+                <option value="Weekly">Weekly</option>
+                <option value="Monthly">Monthly</option>
+                <option value="Daily">Daily</option>
+              </select>
+            </span>
           </div>
+        </div>
 
-          <div className="bg-white">
-            <div className=" bg-white pl-[80px]">
-              <canvas ref={chartRef} />
-
-              <Calendar onChange={onChange} value={date} />
-            </div>
+        <div className="bg-white pb-8 w-[1017px] flex">
+          <div className="flex-1 pr-8">
+            <canvas ref={chartRef} />
           </div>
-        </section>
-      </section>
+          <div>
+            <Calendar onChange={onChange} value={date} />
+          </div>
+        </div>
+      </div>
     </div>
+
+    // </div>
   );
 }
 
