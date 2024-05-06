@@ -2,6 +2,29 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 function TaskForm({ onClose }) {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const taskData = Object.fromEntries(formData.entries());
+    try {
+      // Send taskData to your backend API for storage
+      const response = await fetch('/api/tasks', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(taskData),
+      });
+      if (!response.ok) {
+        throw new Error('Failed to add task');
+      }
+      // Handle successful response, such as closing the form
+      onClose();
+    } catch (error) {
+      console.error('Error adding task:', error.message);
+      // Handle error, such as displaying an error message
+    }
+  };
   return (
     <div className="fixed top-0 left-0 w-full h-full z-50 flex justify-center items-center">
       <div className="absolute top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50"></div>

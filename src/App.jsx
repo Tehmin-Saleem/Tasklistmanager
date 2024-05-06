@@ -1,5 +1,10 @@
 import React from "react";
-import {  BrowserRouter as Router, Routes, Route } from "react-router-dom"; // Import Link component
+import {
+  BrowserRouter as Router,
+  Routes,
+ 
+  Route,
+} from "react-router-dom"; // Import Link component
 import Task from "./Components/Task";
 import SignUp from "./Pages/SignUp/SignUp";
 import Login from "./Pages/Login/Login";
@@ -9,22 +14,19 @@ import Users from "./Components/Users";
 import Dashboard from "./Components/Dashboard";
 import Updatepass from "./Pages/Password/Updatepass";
 
-import Chart  from "./Components/Chart";
-import MyCalendar from "./Components/Calender";
+
 function App() {
   return (
     <>
-{/* <MyCalendar/>
-<Chart/> */}
+    
       <Router>
-       
         <Routes>
-          <Route path="/" element={<Login />}></Route>
-          
-          <Route path="/signup" element={<SignUp />}></Route>
+          <Route path="/" element={<SignUp />}></Route>
+
+          <Route path="/login" element={<Login />}></Route>
           <Route path="/dashboard" element={<Dashboard />}></Route>
           <Route path="/resetpassword" element={<ResetPassword />}></Route>
-          <Route path="/user" element={<Users />}></Route>
+          <Route path="/users" element={<Users />}></Route>
           <Route path="/task" element={<Task />}></Route>
           <Route path="/updaepass" element={<Updatepass />}></Route>
         </Routes>

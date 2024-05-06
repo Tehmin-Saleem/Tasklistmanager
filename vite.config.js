@@ -1,11 +1,13 @@
-/** @type {import('tailwindcss').Config} */
-export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
+import { defineConfig } from 'vite';
+import reactRefresh from '@vitejs/plugin-react-refresh';
+import tailwindcss from 'tailwindcss';
+import autoprefixer from 'autoprefixer';
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [
+    reactRefresh(),
+    tailwindcss('./tailwind.config.js'),
+    autoprefixer(),
   ],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
-}
+});
