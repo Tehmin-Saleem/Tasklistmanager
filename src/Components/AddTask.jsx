@@ -8,7 +8,7 @@ function TaskForm({ onClose }) {
     const taskData = Object.fromEntries(formData.entries());
     try {
       // Send taskData to your backend API for storage
-      const response = await fetch('/api/tasks', {
+      const response = await fetch('http://localhost:3000/api/tasks', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
