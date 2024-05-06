@@ -2,6 +2,28 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 function EditForm({ onClose }) {
+  const updateTask = async (taskId, updatedData) => {
+    try {
+      const response = await fetch(`http://localhost:3000/api/tasks/updateTaskByTitle?title=${encodeURIComponent(taskId)}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedData),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data); // Log updated task data
+        // Update UI or perform any other actions after successful update
+      } else {
+        throw new Error('Failed to update task');
+      }
+    } catch (error) {
+      console.error('Error updating task:', error.message);
+      // Handle error, such as displaying an error message to the user
+    }
+  };
+  
   return (
     <div className="fixed top-0 left-0 w-full h-full z-50 flex justify-center items-center">
       <div className="absolute top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50"></div>

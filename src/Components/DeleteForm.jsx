@@ -3,11 +3,26 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import imagedelete from "../Images/imagedelete.png";
 function DeleteForm({ onClose }) {
-  const handleDeleteClick = (taskId) => {
-    setSelectedTaskId(taskId);
-
-    setTasks(tasks.filter((task) => task.id !== taskId));
+  const handleDeleteClick = async (taskId) => {
+    try {
+      const response = await fetch(`http://localhost:3000/api/tasks/id=${encodeURIComponent(taskId)}`, {
+        method: 'DELETE',
+      });
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data.message); // Log success message
+        // Update frontend tasks list after successful deletion (assuming you have a tasks state)
+        fetchTasks(); // Function to fetch updated tasks list
+        onClose(); // Close the form or modal
+      } else {
+        throw new Error('Failed to delete task');
+      }
+    } catch (error) {
+      console.error('Error deleting task:', error.message);
+      // Handle error, such as displaying an error message to the user
+    }
   };
+  
   return (
     <div className="fixed top-0 left-0 w-full h-full z-50 flex justify-center items-center">
       <div className="absolute top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50"></div>
@@ -29,7 +44,8 @@ function DeleteForm({ onClose }) {
           Delete
         </button>
         <span>
-          <button className="ml-[100px] border rounded-md bg-gray-100 px-[50px] py-4">
+          <button className="ml-[100px] border rounded-md bg-gray-100 px-[50px] py-4"
+          onClick={onClose}>
             Cancel
           </button>
         </span>
