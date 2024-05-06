@@ -4,26 +4,31 @@ import { faTimes } from "@fortawesome/free-solid-svg-icons";
 function EditForm({ onClose }) {
   const updateTask = async (taskId, updatedData) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/tasks/updateTaskByTitle?title=${encodeURIComponent(taskId)}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(updatedData),
-      });
+      const response = await fetch(
+        `http://localhost:3000/api/tasks/updateTaskByTitle?title=${encodeURIComponent(
+          taskId
+        )}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedData),
+        }
+      );
       if (response.ok) {
         const data = await response.json();
         console.log(data); // Log updated task data
         // Update UI or perform any other actions after successful update
       } else {
-        throw new Error('Failed to update task');
+        throw new Error("Failed to update task");
       }
     } catch (error) {
-      console.error('Error updating task:', error.message);
+      console.error("Error updating task:", error.message);
       // Handle error, such as displaying an error message to the user
     }
   };
-  
+
   return (
     <div className="fixed top-0 left-0 w-full h-full z-50 flex justify-center items-center">
       <div className="absolute top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50"></div>
@@ -81,18 +86,11 @@ function EditForm({ onClose }) {
           </label>
           <div className="flex items-center">
             <div className="mr-2">
-              <input
-                id="file-upload"
-                name="attachment"
-                type="file"
-                className="hidden"
-              />
+              <input id="file-upload" name="attachment" type="file" />
               <label
                 htmlFor="file-upload"
                 className="cursor-pointer underline underline-offset-2 text-gray-800 font-semibold py-2 px-4 rounded-lg ml-[180px]"
-              >
-                Choose file
-              </label>
+              ></label>
             </div>
           </div>
         </div>
@@ -129,7 +127,7 @@ function EditForm({ onClose }) {
             onClick={onClose}
             className="py-4 px-[150px]  rounded-md text-white bg-[#4BCBEB] mb-8 font-bold"
           >
-            Add
+            Edit
           </button>
         </div>
       </div>

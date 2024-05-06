@@ -8,20 +8,20 @@ function TaskForm({ onClose }) {
     const taskData = Object.fromEntries(formData.entries());
     try {
       // Send taskData to your backend API for storage
-      const response = await fetch('http://localhost:3000/api/tasks', {
-        method: 'POST',
+      const response = await fetch("http://localhost:3000/api/tasks", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(taskData),
       });
       if (!response.ok) {
-        throw new Error('Failed to add task');
+        throw new Error("Failed to add task");
       }
       // Handle successful response, such as closing the form
       onClose();
     } catch (error) {
-      console.error('Error adding task:', error.message);
+      console.error("Error adding task:", error.message);
       // Handle error, such as displaying an error message
     }
   };
@@ -82,18 +82,11 @@ function TaskForm({ onClose }) {
           </label>
           <div className="flex items-center">
             <div className="mr-2">
-              <input
-                id="file-upload"
-                name="attachment"
-                type="file"
-                className="hidden"
-              />
+              <input id="file-upload" name="attachment" type="file" />
               <label
                 htmlFor="file-upload"
                 className="cursor-pointer underline underline-offset-2 text-gray-800 font-semibold py-2 px-4 rounded-lg ml-[180px]"
-              >
-                Choose file
-              </label>
+              ></label>
             </div>
           </div>
         </div>

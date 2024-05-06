@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
- 
-  Route,
-} from "react-router-dom"; // Import Link component
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"; // Import Link component
 import Task from "./Components/Task";
 import SignUp from "./Pages/SignUp/SignUp";
 import Login from "./Pages/Login/Login";
@@ -14,11 +9,9 @@ import Users from "./Components/Users";
 import Dashboard from "./Components/Dashboard";
 import Updatepass from "./Pages/Password/Updatepass";
 
-
 function App() {
   return (
     <>
-    
       <Router>
         <Routes>
           <Route path="/" element={<SignUp />}></Route>
@@ -28,7 +21,7 @@ function App() {
           <Route path="/resetpassword" element={<ResetPassword />}></Route>
           <Route path="/users" element={<Users />}></Route>
           <Route path="/task" element={<Task />}></Route>
-          <Route path="/updaepass" element={<Updatepass />}></Route>
+          <Route path="/updatepass" element={<Updatepass />}></Route>
         </Routes>
       </Router>
     </>

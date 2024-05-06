@@ -1,8 +1,10 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import vector from "../../Images/Vector.png"; // Adjust the path
 import Illustration1 from "../../Images/illustration1.png"; // Adjust the path
 import { MdOutlineMailOutline } from "react-icons/md";
 const ResetPassword = () => {
+  const navigate = useNavigate();
   return (
     <div className="main flex justify-center items-center h-screen">
       <div className="left w-1/2 bg-[#4BCBEB] h-full px-[200px] pt-[100px]">
@@ -36,23 +38,27 @@ const ResetPassword = () => {
               <button
                 className="bg-[#4BCBEB] rounded-lg text-2xl mt-[50px] px-4 py-4 font-bold w-4/5   px-4 py-2 text-white  rounded  tracking-wider"
                 type="submit"
+                onClick={() => navigate("/updatepass")}
               >
                 Continue
               </button>
             </div>
 
-            <button className="cursor-pointer ml-[130px] mt-[30px] text-[#4BCBEB] font-bold text-lg">
+            <button
+              className="cursor-pointer ml-[130px] mt-[30px] text-[#4BCBEB] font-bold text-lg"
+              onClick={() => navigate("/login")}
+            >
               Back to sign in
             </button>
             <div className="mt-[100px] mx-[70px] text-black mx-4 font-semibold text-sm text-slate-500 text-center md:text-left">
               Don't have an account?
               <span>
-                <a
+                <button
                   className="text-[#4BCBEB]  pl-1 font-[900] text-lg hover:underline hover:underline-offset-4 "
-                  href="#"
+                  onClick={() => navigate("/")}
                 >
                   Sign Up
-                </a>
+                </button>
               </span>
             </div>
           </div>

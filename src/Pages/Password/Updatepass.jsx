@@ -17,9 +17,7 @@ function Updatepass() {
   return (
     <div className="main flex justify-center items-center h-screen">
       <div className="left w-1/2 bg-[#4BCBEB] h-auto px-[100px] pt-[100px] bg-[  rgba(255, 255, 255, 0.06)]">
-        <div className="flex items-center">
-         
-        </div>
+        <div className="flex items-center"></div>
         <img src={updatepass} />
       </div>
       <div className="right w-1/2  h-full pt-[100px]   ">
@@ -32,8 +30,7 @@ function Updatepass() {
             sure it's secure, containing a combination of letters, numbers, and
             special characters.
           </p>
-         
-        
+
           <input
             id="password"
             className="text-sm w-[90%] px-4 py-4 border border-solid border-gray-300 rounded my-4"
@@ -48,8 +45,6 @@ function Updatepass() {
             className="text-sm w-[90%] px-4 py-4 border border-solid border-gray-300 rounded my-4"
             type="password"
             placeholder="Confirm Your new Password"
-            value={password}
-            onChange={handlePasswordChange}
             required
           />
 
@@ -60,12 +55,10 @@ function Updatepass() {
             >
               Update
             </button>
-           
           </div>
-         
         </div>
       </div>
     </div>
   );
-};
+}
 export default Updatepass;

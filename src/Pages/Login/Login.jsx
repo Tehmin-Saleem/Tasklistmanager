@@ -11,9 +11,8 @@ function Login() {
     email: "",
     password: "",
   });
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [error, setError] = useState(null);
-  
 
   const { email, password } = formData;
 
@@ -24,16 +23,15 @@ function Login() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        'http://localhost:3000/api/users/login',
+        "http://localhost:3000/api/users/login",
         { email, password }
       );
       console.log(response.data); // Assuming your backend returns user data or a token
-      navigate('/dashboard'); // Redirect to the dashboard upon successful login
+      navigate("/dashboard"); // Redirect to the dashboard upon successful login
     } catch (err) {
       setError(err.response.data.message); // Display server error message
     }
   };
-
 
   return (
     <div className="main flex justify-center items-center h-screen">
@@ -64,13 +62,13 @@ function Login() {
                 value={email}
                 onChange={onChange}
                 placeholder="Email"
-                required='true'
+                required="true"
               />
               <div className="absolute top-0 left-0 flex mt-2 items-center  h-full px-3">
                 <MdOutlineMailOutline className="text-gray-400 " />
               </div>
             </div>
-            <div className="relative">
+            <div className="">
               <input
                 id="password"
                 className="text-sm w-4/5 px-4 py-4 pl-8 border border-solid border-gray-300 rounded my-4"
@@ -79,7 +77,7 @@ function Login() {
                 value={password}
                 onChange={onChange}
                 placeholder="Password"
-                required='true'
+                required="true"
               />
               <div className="absolute top-0 left-0 flex  items-center  h-full px-3">
                 <RiLockPasswordLine className="text-gray-400 " />
@@ -98,7 +96,10 @@ function Login() {
                 />
                 <span className="font-bold text-black">Remember me</span>
                 <span>
-                  <button className="pl-[155px] text-[#4BCBEB] ">
+                  <button
+                    className="pl-[155px] text-[#4BCBEB] "
+                    onClick={() => navigate("/resetpassword")}
+                  >
                     Forgot Password?
                   </button>
                 </span>
