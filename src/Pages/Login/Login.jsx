@@ -1,28 +1,39 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
-import { login } from "../../Redux/Actions"; 
+import axios from "axios"; // Import Axios for API calls
+import { useNavigate } from "react-router-dom";
 import group from "../../Images/Group.png";
 import Illustration from "../../Images/illustration.png";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { BiHide } from "react-icons/bi";
-
-function Login({ login, isAuthenticated, error }) {
+function Login() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+  const navigate = useNavigate()
+  const [error, setError] = useState(null);
+  
 
   const { email, password } = formData;
 
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    login({ email, password });
+    try {
+      const response = await axios.post(
+        'http://localhost:3000/api/users/login',
+        { email, password }
+      );
+      console.log(response.data); // Assuming your backend returns user data or a token
+      navigate('/dashboard'); // Redirect to the dashboard upon successful login
+    } catch (err) {
+      setError(err.response.data.message); // Display server error message
+    }
   };
+
 
   return (
     <div className="main flex justify-center items-center h-screen">
@@ -107,7 +118,7 @@ function Login({ login, isAuthenticated, error }) {
             <span>
               <a
                 className="text-[#4BCBEB]  pl-1 font-[900] text-lg hover:underline hover:underline-offset-4 "
-                href="/signup"
+                href="/"
               >
                 Sign Up
               </a>
