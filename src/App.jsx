@@ -20,7 +20,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />}></Route>
           <Route path="/resetpassword" element={<ResetPassword />}></Route>
           <Route path="/users" element={<Users />}></Route>
-          <Route path="/task" element={<Task />}></Route>
+          <Route path="/tasks" element={<Task />}></Route>
           <Route path="/updatepass" element={<Updatepass />}></Route>
         </Routes>
       </Router>

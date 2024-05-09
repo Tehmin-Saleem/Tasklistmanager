@@ -47,13 +47,16 @@ function SignUp() {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:3000/api/users/signup", {
-        name,
-        email,
-        password,
-      });
+      const response = await axios.post(
+        "http://localhost:3000/api/users/signup",
+        {
+          name,
+          email,
+          password,
+        }
+      );
       console.log(response);
-      navigate('/login'); // Redirect to login page on successful signup
+      navigate("/login"); // Redirect to login page on successful signup
     } catch (error) {
       console.error(error);
       // Handle signup error, display appropriate message to the user
@@ -61,9 +64,10 @@ function SignUp() {
   };
 
   return (
-    <div className="main flex justify-center items-center h-screen">
-      <div className="left w-1/2 bg-[#4BCBEB] h-full px-[200px] pt-[100px] ">
-        <div className="flex items-center">
+    <div className="main flex justify-content-center items-center h-screen w-100">
+    <div className="left w-1/2 bg-[#4BCBEB] h-full px-[200px] pt-[100px] hidden sm:block ">
+
+        <div className="flex items-center ">
           <img src={vector} alt="Logo" className="mr-2" />
           <span>
             <h2 className="text-2xl font-bold text-white">Task Manager List</h2>
@@ -71,7 +75,7 @@ function SignUp() {
         </div>
         <img src={bro} alt="Bro" />
       </div>
-      <div className="right w-1/2  h-full pt-[100px] ">
+      <div className="right w-auto  h-full pt-[100px] flex items-center">
         <div className="flex flex-col mx-[100px] ">
           <h5 className="font-bold  pb-8 text-2xl">Sign Up for an Account</h5>
           <form onSubmit={handleSubmit}>
@@ -82,7 +86,9 @@ function SignUp() {
                 type="text"
                 placeholder="Enter Your Full Name"
                 value={name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
                 required
               />
             </div>
@@ -96,6 +102,9 @@ function SignUp() {
                 onChange={handleEmailChange}
                 required
               />
+              {emailError && (
+                <div className="text-red-500 text-sm mt-1">{emailError}</div>
+              )}
               <div className="absolute top-0 left-0 flex mt-2 items-center  h-full px-3">
                 <MdOutlineMailOutline className="text-gray-400 " />
               </div>
@@ -110,13 +119,13 @@ function SignUp() {
                 onChange={handlePasswordChange}
                 required
               />
-              <div className="absolute top-0 left-0 flex items-center h-full px-3">
+              <div className="absolute top-0 left-100 flex items-center h-full px-3">
                 <RiLockPasswordLine className="text-gray-400" />
               </div>
             </div>
-            {emailError && (
+            {/* {emailError && (
               <div className="text-red-500 text-xs mt-1">{emailError}</div>
-            )}
+            )} */}
             <div className="text-sm text-[#64748B] font-normal">
               Your password must have at least 8 characters
             </div>
@@ -141,7 +150,6 @@ function SignUp() {
               <button
                 className="bg-[#4BCBEB] mt-4 px-4 py-4 font-bold w-4/5   px-4 py-2 text-white uppercase rounded text-xs tracking-wider"
                 type="submit"
-                
               >
                 SignUp
               </button>
@@ -151,8 +159,7 @@ function SignUp() {
               <span>
                 <button
                   className="text-[#4BCBEB] pl-1 font-[800] text-lg  "
-                  onClick={() => navigate('/login')}
-                
+                  onClick={() => navigate("/login")}
                 >
                   Log In
                 </button>

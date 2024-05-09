@@ -6,11 +6,15 @@ import Illustration from "../../Images/illustration.png";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { BiHide } from "react-icons/bi";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons'; // Import the spinner icon
+
 function Login() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [error, setError] = useState(null);
 
@@ -19,23 +23,27 @@ function Login() {
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  const onSubmit = async (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.post(
-        "http://localhost:3000/api/users/login",
-        { email, password }
-      );
-      console.log(response.data); // Assuming your backend returns user data or a token
-      navigate("/dashboard"); // Redirect to the dashboard upon successful login
-    } catch (err) {
-      setError(err.response.data.message); // Display server error message
-    }
+    setLoading(true); 
+    axios.post('http://localhost:3000/api/users/login',{email,password})
+      .then(result => {
+        const token = result.data.token; // Assuming token is returned in the response
+        localStorage.setItem('jsonwebtoken',token);
+        // console.log("User Role:", result.data.user.role);
+        navigate('/dashboard');
+        console.log(result);
+      })
+      .catch(err => {
+        setLoading(false); 
+        setError("Incorrect email or password."); 
+        console.log(err);
+      });
   };
 
   return (
     <div className="main flex justify-center items-center h-screen">
-      <div className="left w-1/2 bg-[#4BCBEB] h-full px-[200px] pt-[100px] ">
+      <div className="left w-1/2 bg-[#4BCBEB] h-full px-[200px] pt-[100px] hidden sm:block ">
         <div className="flex items-center">
           <img src={group} alt="Logo" className="mr-2" />
           <span>
@@ -44,7 +52,7 @@ function Login() {
         </div>
         <img src={Illustration} alt="Illustration" />
       </div>
-      <div className="right w-1/2  h-full pt-[100px] ">
+      <div className="right w-1/2  h-full pt-[100px] flex items-center justify-content-center">
         <div className="flex flex-col mx-[100px] ">
           <h5 className="font-bold  pb-8 text-2xl font-[poppins]">
             Sign In to your Account
@@ -107,10 +115,15 @@ function Login() {
             </div>
             <div className="text-center md:text-left">
               <button
-                className="bg-[#4BCBEB] rounded-lg text-lg mt-4 px-4 py-4 font-bold w-4/5   px-4 py-2 text-white uppercase rounded text-xs tracking-wider"
+                className="bg-[#4BCBEB] rounded-lg text-lg mt-4 px-4 py-4 font-bold w-4/5   px-4 py-2 text-white uppercase rounded text-xs tracking-wider relative" // Added 'relative' class here
                 type="submit"
               >
-                Log In
+                {loading && (
+                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                    <FontAwesomeIcon icon={faSpinner} className="fa-spin text-white" />
+                  </div>
+                )}
+                {!loading && "Login"}
               </button>
             </div>
           </form>
@@ -130,10 +143,5 @@ function Login() {
     </div>
   );
 }
-
-const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated,
-  error: state.auth.error,
-});
 
 export default Login;
