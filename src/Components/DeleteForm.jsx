@@ -1,56 +1,79 @@
-import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import React, { useState } from "react";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import imagedelete from "../Images/imagedelete.png";
-function DeleteForm({ onClose }) {
-  const handleDeleteClick = async (taskId) => {
-    try {
-      const response = await fetch(`http://localhost:3000/api/tasks/id=${encodeURIComponent(taskId)}`, {
-        method: 'DELETE',
-      });
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data.message); // Log success message
-        // Update frontend tasks list after successful deletion (assuming you have a tasks state)
-        fetchTasks(); // Function to fetch updated tasks list
-        onClose(); // Close the form or modal
-      } else {
-        throw new Error('Failed to delete task');
-      }
-    } catch (error) {
-      console.error('Error deleting task:', error.message);
-      // Handle error, such as displaying an error message to the user
-    }
+import axios from "axios"; // Import axios for API requests
+
+function DeleteForm({ onClose, taskId, fetchTasks }) {
+  const [error, setError] = useState(null); // State for handling errors
+  const [cross, setCross] = useState(true);
+
+  const crossDisplay = () => {
+    setCross(!cross);
   };
-  
+
+  const handleDeleteClick = () => {
+    axios
+      .delete(`http://localhost:3000/api/tasks/${taskId}`)
+      .then((response) => {
+        console.log("Task deleted:", response);
+        fetchTasks(); // Fetch updated tasks after deletion
+        onClose(); // Close the delete form
+      })
+      .catch((error) => {
+        console.error("Error deleting task:", error);
+      });
+  };
+
   return (
-    <div className="fixed top-0 left-0 w-full h-full z-50 flex justify-center items-center">
-      <div className="absolute top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50"></div>
-      <div className="bg-white w-[570px] h-auto p-6 rounded-lg shadow-md relative z-50 overflow-y-auto">
-        <button
-          onClick={onClose}
-          className="absolute size-[30rem]  right-2 bg-gray-500 border w-[24px] h-[20px] pb-6 rounded-[12px]"
-        >
-          <FontAwesomeIcon icon={faTimes} />
-        </button>
-        <img className="image ml-[170px]" src={imagedelete}></img>
-        <h2 className="text-xl  mb-4 text-center">
-          Are you sure you want to delete the image
-        </h2>
-        <button
-          className="ml-[100px] border rounded-md bg-[#4BCBEB] px-[50px] py-4"
-          onClick={() => handleDeleteClick(task.id)}
-        >
-          Delete
-        </button>
-        <span>
-          <button className="ml-[100px] border rounded-md bg-gray-100 px-[50px] py-4"
-          onClick={onClose}>
-            Cancel
-          </button>
-        </span>
-      </div>
-    </div>
+    <>
+      {cross && (
+        <div className="fixed top-0 left-0 w-full h-full z-50 flex justify-center items-center">
+          <div className="absolute top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50"></div>
+          <div className="bg-white w-[570px] h-auto p-6 rounded-lg shadow-md relative z-50 overflow-y-auto">
+            <button onClick={crossDisplay} className="absolute top-2 right-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6 text-gray-500"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+            <img
+              className="mx-auto my-4 w-[100px]"
+              src={imagedelete}
+              alt="Delete"
+            />
+            <h2 className="text-xl mb-4 text-center">
+              Are you sure you want to delete this task?
+            </h2>
+            {error && <div className="text-red-500 mb-4">{error}</div>}
+            <div className="flex justify-center gap-4">
+              <button
+                className="border rounded-md bg-red-500 px-6 py-2 text-white"
+                onClick={handleDeleteClick}
+              >
+                Delete
+              </button>
+              <button
+                className="border rounded-md bg-gray-200 px-6 py-2"
+                onClick={onClose} // Close the form on Cancel button click
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 

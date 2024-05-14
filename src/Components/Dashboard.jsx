@@ -2,12 +2,9 @@ import Menu from "./Menu";
 import Header from "./Header";
 import React, { useEffect, useRef, useState } from "react";
 import Chart from "chart.js/auto";
-
 import Calendar from "react-calendar";
 import ProgressBar from "@ramonak/react-progress-bar";
 import "react-calendar/dist/Calendar.css";
-// import { Link } from "react-router-dom";
-// import Notifications from "./Notifications";
 
 function Dashboard() {
   const [showNotification, setShowNotification] = useState(false);
@@ -16,6 +13,7 @@ function Dashboard() {
   const showNotifications = () => {
     setShowNotification(true);
   };
+  const totalTasks = 10; // Adjusted total tasks count
 
   const [date, setDate] = useState(new Date());
   const [selectedOption, setSelectedOption] = useState("Weekly");
@@ -33,9 +31,12 @@ function Dashboard() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/tasks"); // Assuming your backend route is '/api/tasks'
+        const response = await fetch("http://localhost:3000/api/tasks");
         const data = await response.json();
         setTasks(data);
+
+        // Update progress bars based on conditions
+        updateProgressBar(data);
       } catch (error) {
         console.error("Error fetching tasks:", error);
       }
@@ -45,48 +46,48 @@ function Dashboard() {
 
     return () => clearInterval(interval); // Cleanup interval on unmount
   }, []);
+
   const updateProgressBar = (data) => {
     // Calculate progress for each type of task
-    const totalTasks = data.length;
-    const completedTasks = data.filter(
+    const totalTasksCount = data.length;
+    const completedTasksCount = data.filter(
       (task) => task.status === "Completed"
     ).length;
-    const pendingTasks = data.filter(
-      (task) => task.status === "Pending"
+    const declineTasksCount = data.filter(
+      (task) =>
+        new Date(task.endDate) < new Date() && task.status !== "Completed"
     ).length;
-    const declineTasks = data.filter(
-      (task) => task.status === "Decline"
+    const pendingTasksCount = data.filter(
+      (task) => new Date(task.startDate) > new Date()
     ).length;
 
-    // Update progress bar values
-    document.getElementById("totalTasksBar").style.width = `${
-      (totalTasks / 100) * 100
-    }%`;
-    document.getElementById("completedTasksBar").style.width = `${
-      (completedTasks / 100) * 100
-    }%`;
-    document.getElementById("pendingTasksBar").style.width = `${
-      (pendingTasks / 100) * 100
-    }%`;
-    document.getElementById("declineTasksBar").style.width = `${
-      (declineTasks / 100) * 100
-    }%`;
+    // Update progress bar values only if the elements exist
+    const totalTasksBar = document.getElementById("totalTasksBar");
+    const completedTasksBar = document.getElementById("completedTasksBar");
+    const declineTasksBar = document.getElementById("declineTasksBar");
+    const pendingTasksBar = document.getElementById("pendingTasksBar");
+
+    if (totalTasksBar) {
+      const totalPercentage = (totalTasksCount / totalTasks) * 100;
+      totalTasksBar.style.width = `${totalPercentage}`;
+    }
+
+    if (completedTasksBar) {
+      const completedPercentage = (completedTasksCount / totalTasks) * 100;
+      completedTasksBar.style.width = `${completedPercentage}`;
+    }
+
+    if (declineTasksBar) {
+      const declinePercentage = (declineTasksCount / totalTasks) * 100;
+      declineTasksBar.style.width = `${declinePercentage}`;
+    }
+
+    if (pendingTasksBar) {
+      const pendingPercentage = (pendingTasksCount / totalTasks) * 100;
+      pendingTasksBar.style.width = `${pendingPercentage}`;
+    }
   };
-  const updateChartData = (data) => {
-    if (!myChart || !data) return; // Check if chart or data is not available
 
-    const taskCounts = {
-      Completed: data.filter((task) => task.status === "Completed").length,
-      Pending: data.filter((task) => task.status === "Pending").length,
-      Decline: data.filter((task) => task.status === "Decline").length,
-    };
-
-    // Update chart data
-    myChart.data.labels = Object.keys(taskCounts);
-    myChart.data.datasets[0].data = Object.values(taskCounts);
-
-    myChart.update(); // Update the chart
-  };
   useEffect(() => {
     let newChart = null;
 
@@ -99,10 +100,29 @@ function Dashboard() {
       newChart = new Chart(ctx, {
         type: "line",
         data: {
-          labels: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+          labels:
+            selectedOption === "Weekly"
+              ? ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+              : selectedOption === "Monthly"
+              ? ["Week 1", "Week 2", "Week 3", "Week 4"]
+              : [
+                  "12 AM",
+                  "3 AM",
+                  "6 AM",
+                  "9 AM",
+                  "12 PM",
+                  "3 PM",
+                  "6 PM",
+                  "9 PM",
+                ],
           datasets: [
             {
-              data: [100, 500, 100, 2000, 200, 5000, 1000], // Dummy data, replace with actual data
+              data:
+                selectedOption === "Weekly"
+                  ? [100, 500, 100, 2000, 200, 5000, 1000]
+                  : selectedOption === "Monthly"
+                  ? [500, 1000, 1500, 2000]
+                  : [200, 400, 600, 800, 1000, 1200, 1400, 1600],
               borderColor: "rgb(75, 192, 192)",
               borderWidth: 2,
               fill: false,
@@ -167,137 +187,159 @@ function Dashboard() {
         newChart.destroy();
       }
     };
-  }, []);
+  }, [selectedOption]); // Update chart when selected option changes
 
   return (
-    <div className="flex h-screen">
-    <div className="h-screen  ">
-      <Menu></Menu>
-    </div>
+    <div className="flex flex-col md:flex-row h-screen">
+      <div className="md:w-64">
+        <Menu />
+      </div>
 
-    <div className="pl-[2px] w-[1000px] md:w-10/12 bg-[#F6F8FA]">
-      <Header  name="Dashboard" ></Header>
-      <div className="mt-7 ml-7  w-auto md:w-[1060px] h-auto md:h-[600px] bg-white rounded-xl border-[1.45px] border-[#4BCBEB] drop-shadow-md">
-        <div className="flex h-[60px] w-auto mr-900 ">
-          <p className="mt-[25.46px] pl-14 font-bold text-2xl text-black">
-            Analytics
-          </p>
+      <div className="w-full md:w-10/12 overflow-auto bg-[#F6F8FA]">
+        <Header headername="Dashboard"></Header>
+        <div className="mt-7 ml-7 w-auto md:w-[1060px] h-auto md:h-[600px] bg-white rounded-xl border-[1.45px] border-[#4BCBEB] drop-shadow-md">
+          <div className="flex h-[60px] w-auto mr-900">
+            <p className="mt-[25.46px] pl-14 font-bold text-2xl text-black">
+              Analytics
+            </p>
+            <svg
+              className="ml-[850px] mt-[25.46px]"
+              width="19"
+              height="18"
+              viewBox="0 0 19 18"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M17 2.25H2L8 9.345V14.25L11 15.75V9.345L17 2.25Z"
+                stroke="#64748B"
+              />
+            </svg>
+          </div>
+
           <svg
-            className="ml-[700px] mt-[25.46px]"
-            width="19"
-            height="18"
-            viewBox="0 0 19 18"
+            className="ml-[55px] mt-2 bg-[#F1F5F9] pr-8"
+            width="990"
+            height="2"
+            viewBox="0 0 974 2"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M17 2.25H2L8 9.345V14.25L11 15.75V9.345L17 2.25Z"
-              stroke="#64748B"
-            />
-          </svg>
-        </div>
-
-        <svg
-          className="ml-[55px] mt-2 bg-[#F1F5F9] pr-8"
-          width="990"
-          height="2"
-          viewBox="0 0 974 2"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        ></svg>
-        <hr className="col-span-4 ml-[100px] pr-[700px]" />
-        <div className="ml-14 mr-14">
+          ></svg>
+          <hr className="col-span-4 ml-[100px] pr-[700px]" />
+          <div className="ml-14 mr-14">
             <div className="ml-11 py-7 grid grid-cols-1 md:grid-cols-4 gap-4">
-              <div className="  m-4 rounded-2xl  p-4 bg-[#F4F2FF] ">
-            <h1 className="text-black font-bold">Total Tasks</h1>
-            <h1 className="text-lg font-bold mx-4 pb-6 mb-3 pt-3 text-gray-600">
-              {tasks.length}/100
-            </h1>
-            <div className="mx-3 text-blue-100 mb-7">
-              <ProgressBar
-                completed={(tasks.length / 100) * 100}
-                bgColor="#4BCBEB"
-              />
+              <div className="m-4 rounded-2xl p-4 bg-[#F4F2FF]">
+                <h1 className="text-black font-bold">Total Tasks</h1>
+                <h1 className="text-lg font-bold mx-4 pb-6 mb-3 pt-3 text-gray-600">
+                  {totalTasks}
+                </h1>
+                <div className="mx-3 text-blue-100 mb-7">
+                  <ProgressBar
+                    completed={(totalTasks / totalTasks) * 100}
+                    bgColor="#4BCBEB"
+                    id="totalTasksBar"
+                    hidePercentage
+                    noBorder
+                  />
+                </div>
+              </div>
+              <div className="bg-[#E2EFFC] m-4 rounded-2xl p-4">
+                <h1 className="text-black font-bold">Completed Tasks</h1>
+                <h1 className="text-lg font-bold mx-4 pb-6 mb-3 pt-3 text-gray-600">
+                  {tasks.filter((task) => task.status === "Completed").length}/
+                  {totalTasks}
+                </h1>
+                <div className="mx-3 text-blue-100 mb-7">
+                  <ProgressBar
+                    completed={
+                      (tasks.filter((task) => task.status === "Completed")
+                        .length /
+                        totalTasks) *
+                      100
+                    }
+                    bgColor="#5CB85C"
+                    hidePercentage
+                    noBorder
+                  />
+                </div>
+              </div>
+              <div className="3rddiv bg-[#FBEDD2] m-4 rounded-2xl p-4">
+                <h1 className="text-black font-bold mb-4">Pending Tasks</h1>
+                <h1 className="text-lg font-bold mx-4 pb-[20px] mb-3 text-gray-600">
+                  {
+                    tasks.filter(
+                      (task) => new Date(task.startDate) > new Date()
+                    ).length
+                  }
+                  /{totalTasks}
+                </h1>
+                <div className="mx-3 mb-7">
+                  <ProgressBar
+                    completed={
+                      (tasks.filter(
+                        (task) => new Date(task.startDate) > new Date()
+                      ).length /
+                        totalTasks) *
+                      100
+                    }
+                    bgColor="#F0AD4E"
+                    hidePercentage
+                    noBorder
+                  />
+                </div>
+              </div>
+              <div className="4thdiv bg-[#E0F6F4] m-4 rounded-2xl p-4">
+                <h1 className="text-black font-bold mb-4">Decline Tasks</h1>
+                <h1 className="text-lg font-bold mx-4 pb-[30px] text-gray-600">
+                  {
+                    tasks.filter((task) => new Date(task.endDate) < new Date())
+                      .length
+                  }
+                  /{totalTasks}
+                </h1>
+                <div className="mx-3 mb-7">
+                  <ProgressBar
+                    completed={
+                      (tasks.filter(
+                        (task) => new Date(task.endDate) < new Date()
+                      ).length /
+                        totalTasks) *
+                      100
+                    }
+                    bgColor="#D9534F"
+                    hidePercentage
+                    noBorder
+                  />
+                </div>
+              </div>
             </div>
           </div>
-          <div className="bg-[#E2EFFC]  m-4 rounded-2xl  p-4">
-            <h1 className="text-black font-bold">Completed Tasks</h1>
-            <h1 className="text-lg font-bold mx-4 pb-6 mb-3 pt-3 text-gray-600">
-              {tasks.filter((task) => task.status === "Completed").length}/100
-            </h1>
-            <div className="mx-3 text-blue-100 mb-7">
-              <ProgressBar
-                completed={
-                  (tasks.filter((task) => task.status === "Completed").length /
-                    100) *
-                  100
-                }
-                bgColor="#5CB85C"
-              />
-            </div>
-          </div>
-          <div className="3rddiv bg-[#FBEDD2] m-4 rounded-2xl p-4">
-            <h1 className="text-black font-bold mb-4">Pending Tasks</h1>
-            <h1 className="text-lg font-bold mx-4 pb-[20px] mb-3 text-gray-600">
-              {tasks.filter((task) => task.status === "Pending").length}/100
-            </h1>
-            <div className="mx-3 mb-7">
-              <ProgressBar
-                completed={
-                  (tasks.filter((task) => task.status === "Pending").length /
-                    100) *
-                  100
-                }
-                bgColor="#F0AD4E"
-              />
-            </div>
-          </div>
-          <div className="4thdiv bg-[#E0F6F4] m-4 rounded-2xl p-4">
-            <h1 className="text-black font-bold mb-4">Decline Tasks</h1>
-            <h1 className="text-lg font-bold mx-4 pb-[30px]  text-gray-600">
-              {tasks.filter((task) => task.status === "Decline").length}/100
-            </h1>
-            <div className="mx-3 mb-7">
-              <ProgressBar
-                completed={
-                  (tasks.filter((task) => task.status === "Decline").length /
-                    100) *
-                  100
-                }
-                bgColor="#D9534F"
-                className="rounded-none"
-              />
-            </div>
-          </div>
-        </div>
 
-        {/* <div className=" bg-slate-300 grid grid-cols-2  col-2 row-1 mt-[100px] "> */}
-        <div className="flex-1 bg-white p-4 row-span-1 col-span-2  ">
-          <div className=" ">
-            <h1 className="text-2xl font-bold p-6 m-1">Total Task Ratio </h1>
-            <span className="dropdownbutton text-[#4BCBEB] pl-[350px] font-bold mb-8">
-              <select value={selectedOption} onChange={handleSelectChange}>
-                <option value="Weekly">Weekly</option>
-                <option value="Monthly">Monthly</option>
-                <option value="Daily">Daily</option>
-              </select>
-            </span>
-          </div>
-        </div>
+          <div className="flex-1 bg-white p-4 row-span-1 col-span-2">
+            <div className="">
+              
+              <h1 className="text-2xl font-bold p-6 m-1">Total Task Ratio </h1>
+              <span className="dropdownbutton text-[#4BCBEB] pl-[350px] font-bold mb-8">
+                <select value={selectedOption} onChange={handleSelectChange}>
+                  <option value="Weekly">Weekly</option>
+                  <option value="Monthly">Monthly</option>
+                  <option value="Daily">Daily</option>
+                </select>
+              </span>
+            </div>
 
-        <div className="bg-white pb-8 w-[1017px] flex">
-          <div className="flex-1 pr-8">
-            <canvas ref={chartRef} />
-          </div>
-          <div>
-            <Calendar onChange={onChange} value={date} />
+            <div className="bg-white pb-8 w-[1017px] flex">
+              <div className="flex-1 pr-8">
+                <canvas ref={chartRef} />
+              </div>
+
+              <Calendar onChange={onChange} value={date} />
+            </div>
+            {/* </div> */}
           </div>
         </div>
       </div>
-      </div>
     </div>
-    </div>
-    
   );
 }
 

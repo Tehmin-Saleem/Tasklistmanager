@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import axios from 'axios';
- import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import React, { useState } from "react";
+import axios from "axios";
+import PropTypes from "prop-types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 function AddTask({ onSubmit }) {
   const [cross, setCross] = useState(true);
   const [title, setTitle] = useState("");
@@ -16,14 +16,20 @@ function AddTask({ onSubmit }) {
   const handleFormSubmit = (e) => {
     e.preventDefault();
     setLoading(true); // Set loading to true on form submission
-    axios.post('http://localhost:3000/api/tasks/addTasks', { title, description, startDate, endDate })
-      .then(result => {
+    axios
+      .post("http://localhost:3000/api/tasks/addTasks", {
+        title,
+        description,
+        startDate,
+        endDate,
+      })
+      .then((result) => {
         const newData = { title, description, startDate, endDate };
         onSubmit(newData);
         setLoading(false); // Set loading to false after successful submission
-        console.log(result)
+        console.log(result);
       })
-      .catch(err => {
+      .catch((err) => {
         setLoading(false); // Set loading to false if submission is unsuccessful
         console.log(err);
       });
@@ -31,7 +37,7 @@ function AddTask({ onSubmit }) {
   return (
     <>
       {cross && (
-        <div className="fixed inset-0 flex items-center justify-center bg-[#000000] bg-opacity-50">
+        <div className="fixed inset-0 flex items-center justify-center bg-[#000000] bg-opacity-50 h-screen">
           <div className="bg-white p-8 w-[482px] rounded-lg">
             <div className="flex">
               <h2 className="text-xl font-medium mx-auto mb-4 mt-1 text-center">
@@ -56,7 +62,8 @@ function AddTask({ onSubmit }) {
             </div>
             <div className="ml-14 mr-14 items-center justify-center">
               <p className="text-s text-[#888888] text-center justify-center">
-                Fill the information below to add new task as per <br></br>your requirement.
+                Fill the information below to add new task as per <br></br>your
+                requirement.
               </p>
             </div>
             <form onSubmit={handleFormSubmit}>
@@ -95,8 +102,12 @@ function AddTask({ onSubmit }) {
                 className="w-full h-40 border border-gray-300 rounded-md py-1 px-3"
               />
               <div className="flex">
-                <p className="text-xs text-[#888888]">Supported Format: PNG,JPG</p>
-                <p className="text-xs ml-36 text-[#888888]">Maximum size: 5mb</p>
+                <p className="text-xs text-[#888888]">
+                  Supported Format: PNG,JPG
+                </p>
+                <p className="text-xs ml-36 text-[#888888]">
+                  Maximum size: 5mb
+                </p>
               </div>
               <label className="block mb-2 mt-3 font-bold">Start Date:</label>
               <input
@@ -118,16 +129,19 @@ function AddTask({ onSubmit }) {
               ></input>
               {/* Submit button with loading spinner */}
               <button
-  type="submit"
-  className="bg-blue-500 text-white py-2 px-4 ml-40 mt-3 rounded-md relative"
-  style={{ width: "100px", height: "40px" }} // Set fixed dimensions for the button
-  disabled={loading} // Disable button when loading is true
->
-  {loading && (
-    <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
-      <FontAwesomeIcon icon={faSpinner} className="fa-spin text-white" />
-    </div>
-  )}
+                type="submit"
+                className="bg-blue-500 text-white py-2 px-4 ml-40 mt-3 rounded-md relative"
+                style={{ width: "100px", height: "40px" }} // Set fixed dimensions for the button
+                disabled={loading} // Disable button when loading is true
+              >
+                {loading && (
+                  <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
+                    <FontAwesomeIcon
+                      icon={faSpinner}
+                      className="fa-spin text-white"
+                    />
+                  </div>
+                )}
                 {!loading && "Submit"}
               </button>
             </form>
@@ -139,5 +153,5 @@ function AddTask({ onSubmit }) {
 }
 AddTask.propTypes = {
   onSubmit: PropTypes.func.isRequired,
- };
+};
 export default AddTask;

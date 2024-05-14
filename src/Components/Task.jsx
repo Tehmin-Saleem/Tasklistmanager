@@ -1,35 +1,36 @@
 import { useEffect, useState } from "react";
 import React from "react";
-import Taskimage from "../images/Taskimage.png";
+import Taskimage from "../Images/Taskimage.png";
 import Menu from "./Menu";
 import axios from "axios";
 import AddTask from "./AddTask";
 import DeleteForm from "./DeleteForm";
 import EditTask from "./EditTask";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Notification from "../svg components/Notification";
-import User from "../svg components/User";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import Notification from "../svg components/Notification";
+// import User from "../svg components/User";
 import AddTaskbtn from "../svg components/AddTaskbtn";
- import { getRole } from "../utils/getRole";
- import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
+//  import { getRole } from "../utils/getRole";
+import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import CircularProgress from "@mui/material/CircularProgress";
-
-
+import Header from "./Header";
 
 function Tasks() {
   const [showOptions, setShowOptions] = useState({});
   const [submittedData, setSubmittedData] = useState([]);
   const [showAddTask, setShowAddTask] = useState(false);
+  const [showEditTask, setShowEditTask] = useState(false);
+  const [showdeleteForm, setShowdeleteForm] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredTasks, setFilteredTasks] = useState([]);
   const [isLoading, setIsLoading] = useState(false); // State to track loading
+  const [startDate, setStartDate] = useState(""); // State for start date input
+  const [endDate, setEndDate] = useState("");
 
-  const [showTodo, setShowTodo] = useState(false);
   const [selectedTaskId, setSelectedTaskId] = useState(null);
   const handleClick = (taskId) => {
     setSelectedTaskId(taskId);
   };
-  
 
   const colors = [
     "bg-red-500",
@@ -55,11 +56,13 @@ function Tasks() {
   }, []);
 
   function fetchTasks() {
+    console.log("here");
     setIsLoading(true); // Start loading
     axios
       .get("http://localhost:3000/api/tasks")
       .then((response) => {
         const tasks = response.data;
+        console.log("ffafd", response.data);
         setSubmittedData(tasks);
         setFilteredTasks(tasks);
       })
@@ -84,58 +87,48 @@ function Tasks() {
         console.error("Error adding task:", error);
       });
   }
-  function handleEditClick(data) {
-    setShowAddTask(true);
+  // Update handleEditTaskSubmit function
+  function handleEditTaskSubmit(taskId, newData) {
+    setSelectedTaskId(taskId);
+    setShowEditTask(true); // Show the edit form
     axios
-      .post("http://localhost:3000/api/tasks", data)
+      .patch(`http://localhost:3000/api/tasks/${taskId}`, newData)
       .then((response) => {
-        setSubmittedData([...submittedData, data]);
-        setFilteredTasks([...filteredTasks, data]);
-        setShowAddTask(false);
+        const updatedTask = response.data; // Assuming the backend returns the updated task
+        // Update the task in your state or data
+        const updatedTasks = filteredTasks.map((task) =>
+          task._id === taskId ? updatedTask : task
+        );
+        setFilteredTasks(updatedTasks);
+        setShowEditTask(false);
       })
       .catch((error) => {
-        console.error("Error adding task:", error);
+        console.error("Error editing task:", error);
       });
   }
- 
-  const handleDeleteClick = (taskId) => {
+
+  const handleDeleteForm = (taskId) => {
+    setSelectedTaskId(taskId); // Set the selected task ID
+    setShowdeleteForm(true); // Show the delete form
+  };
+
+  const handledeleteFormSubmit = (taskId) => {
     axios
-        .delete(`http://localhost:3000/api/tasks/${taskId}`)
-        .then((response) => {
-            // Remove the deleted task from UI
-            console.log(response)
-            const updatedTasks = filteredTasks.filter((task) => task._id !== taskId);
-            setFilteredTasks(updatedTasks);
-            // Close Todo component if the deleted task is the one being displayed
-            if (selectedTaskId === taskId) {
-              setSelectedTaskId(null);
-            }
-        })
-        .catch((error) => {
-            console.error("Error deleting task:", error);
-        });
-};
-
-const handleTodoDelete = () => {
-    if (selectedTaskId) {
-        handleDeleteTask(selectedTaskId);
-    }
-};
-
-const handleTodoClose = () => {
-    
-    setSelectedTaskId(null);
-};
-
-const handleTodoClick = (taskId) => {
-  if (selectedTaskId === taskId) {
-      // If the same task is clicked again, close the Todo component
-      setSelectedTaskId(null);
-  } else {
-      // If a different task is clicked, open the Todo component for that task
-      setSelectedTaskId(taskId);
-  }
-};
+      .delete(`http://localhost:3000/api/tasks/${taskId}`)
+      .then((response) => {
+        const updatedTasks = filteredTasks.filter(
+          (task) => task._id !== taskId
+        );
+        setFilteredTasks(updatedTasks);
+        if (selectedTaskId === taskId) {
+          setSelectedTaskId(null);
+        }
+        setShowdeleteForm(false); // Hide the delete form after successful deletion
+      })
+      .catch((error) => {
+        console.error("Error deleting task:", error);
+      });
+  };
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -143,16 +136,47 @@ const handleTodoClick = (taskId) => {
       .toString()
       .padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`;
   };
+  const filterTasksByDate = (tasks) => {
+    if (startDate && endDate) {
+      const filteredTasks = tasks.filter((task) => {
+        const taskStartDate = new Date(task.startDate);
+        const taskEndDate = new Date(task.endDate);
+        const filterStartDate = new Date(startDate);
+        const filterEndDate = new Date(endDate);
+        return taskStartDate >= filterStartDate && taskEndDate <= filterEndDate;
+      });
+      return filteredTasks;
+    }
+    return tasks;
+  };
 
+  const handleStartDateChange = (e) => {
+    setStartDate(e.target.value);
+    applyFilters(e.target.value, endDate);
+  };
+
+  const handleEndDateChange = (e) => {
+    setEndDate(e.target.value);
+    applyFilters(startDate, e.target.value);
+  };
+
+  const applyFilters = (start, end) => {
+    const filteredByDate = filterTasksByDate(submittedData);
+    const filteredBySearch = filteredByDate.filter((task) =>
+      task.title.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredTasks(filteredBySearch);
+  };
   const handleSearchChange = (e) => {
     const query = e.target.value.toLowerCase();
     setSearchQuery(query);
-    const filteredTasks = submittedData.filter((task) =>
-      task.title.toLowerCase().includes(query)
-    );
-    setFilteredTasks(filteredTasks);
+    applyFilters(startDate, endDate);
+
+    if (query === "") {
+      // If search query is empty, fetch all previous tasks again
+      setFilteredTasks(submittedData);
+    }
   };
- 
 
   return (
     <div className="flex flex-col md:flex-row h-screen">
@@ -161,13 +185,12 @@ const handleTodoClick = (taskId) => {
       </div>
 
       <div className="w-full md:w-10/12 overflow-auto bg-[#F6F8FA]">
-        <div className="flex h-16 bg-white items-center justify-between px-4 md:px-16">
-          <p className="font-extrabold text-2xl text-black">Task</p>
-          <div className="flex items-center ">
+        <Header headername="Tasks"></Header>
+        {/* <div className="flex items-center ">
             <Notification />
-            <User />
-          </div>
-        </div>
+           
+          </div> */}
+
         <div className="px-4 md:px-16 mt-7">
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="w-full md:w-60 mb-4 md:mb-0">
@@ -177,6 +200,7 @@ const handleTodoClick = (taskId) => {
                 type="date"
                 placeholder="15-Apr-2024"
                 required
+                onChange={handleStartDateChange}
               />
             </div>
 
@@ -187,16 +211,17 @@ const handleTodoClick = (taskId) => {
                 type="date"
                 placeholder="15-Apr-2024"
                 required
+                onChange={handleEndDateChange}
               />
             </div>
-            {getRole() !== "Admin" && (
-              <button
-                className="h-10 ml-auto"
-                onClick={() => setShowAddTask(true)}
-              >
-                <AddTaskbtn />
-              </button>
-            )}
+            {/* {getRole() !== "Admin" && ( */}
+            <button
+              className="h-10 ml-auto"
+              onClick={() => setShowAddTask(true)}
+            >
+              <AddTaskbtn />
+            </button>
+            {/* )} */}
           </div>
           <h1 className="mt-5 font-bold">Enter Title:</h1>
           <div className="flex">
@@ -221,78 +246,90 @@ const handleTodoClick = (taskId) => {
           )}
         </div>
         <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-11 px-4 md:px-16">
-        {filteredTasks.map((item, index) => (
-  <div key={index} className="bg-white  rounded-xl  shadow-md relative"> {/* Added relative class */}
-    <div className={`h-6 mb-4 ${getRandomColor()} rounded-t-xl`} />
-
-    <div className="flex justify-between items-center px-3 py-2"> {/* Added flex justify-between items-center */}
-      <div className="flex items-center"> {/* Added flex items-center */}
-        <p className="text-sm font-bold mr-2">{item.title}</p>
-        <span
-          className="text-[#4BCBEB] hover:bg-gray-50 cursor-pointer "
-          onClick={() => toggleOptions(item._id)} // Assuming you have a toggleOptions function
-        >
-          <FontAwesomeIcon icon={faEllipsisV} />
-          {showOptions[item._id] && selectedTaskId === item._id && (
+          {filteredTasks.map((item, index) => (
             <div
-              className="absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 "
-              role="menu"
-              aria-orientation="vertical"
-              aria-labelledby="options-menu"
+              key={index}
+              className="bg-white  rounded-xl  shadow-md relative"
             >
-              <div className="py-1" role="none">
-                <button
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-right"
-                  role="menuitem"
-                  onClick={() => handlAddTaskSubmit(item._id)} // Assuming handleAddClick, handleDeleteClick, and handleEditClick functions exist
-                >
-                  Add
-                </button>
-                <button
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-right"
-                  role="menuitem"
-                  onClick={() => handleDeleteClick(item._id)}
-                >
-                  Delete
-                </button>
-                <button
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-right"
-                  role="menuitem"
-                  onClick={() => handleEditClick(item._id)}
-                >
-                  Edit
-                </button>
+              <div className={`h-6 mb-4 ${getRandomColor()} rounded-t-xl`} />
+              <div className="flex justify-between items-center px-3 py-2 relative">
+                <div className="flex items-center">
+                  <p className="text-sm font-bold mr-2">{item.title}</p>
+                  <span
+                    className="text-[#4BCBEB] hover:bg-gray-50 cursor-pointer absolute top-0 right-0 mr-2 mt-2" // Positioning and styling for the three dots icon
+                    onClick={() => toggleOptions(item._id)} // Assuming you have a toggleOptions function
+                  >
+                    <FontAwesomeIcon icon={faEllipsisV} />
+                    {showOptions[item._id] && selectedTaskId === item._id && (
+                      <div
+                        className="absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 "
+                        role="menu"
+                        aria-orientation="vertical"
+                        aria-labelledby="options-menu"
+                      >
+                        <div className="py-1" role="none">
+                          <button
+                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-right"
+                            role="menuitem"
+                            onClick={() => handleDeleteForm(item._id)}
+                          >
+                            Delete
+                          </button>
+                          <button
+                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-right"
+                            role="menuitem"
+                            onClick={() => {
+                              setShowEditTask(true);
+                              // handleEditTaskSubmit(item._id);
+                            }}
+                          >
+                            Edit
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </span>
+                </div>
+              </div>
+              <p className="px-3">{item.description}</p>
+              <div className="text-sm font-bold mt-2 px-3">Attachment:</div>
+              <img
+                src={Taskimage}
+                alt="Attachment"
+                className="mt-1 w-full h-24 object-cover rounded-lg"
+              />
+              <div className="flex justify-between mt-2 px-3">
+                <div className="text-sm font-bold">Start Date:</div>
+                <div className="text-sm font-bold">End Date:</div>
+              </div>
+              <div className="flex justify-between mt-1 px-3">
+                <div className="text-sm">{formatDate(item.startDate)}</div>
+                <div className="text-sm">{formatDate(item.endDate)}</div>
               </div>
             </div>
-          )}
-        </span>
-      </div>
-    </div>
-
-    <p className="px-3">{item.description}</p>
-    <div className="text-sm font-bold mt-2 px-3">Attachment:</div>
-    <img
-      src={Taskimage}
-      alt="Attachment"
-      className="mt-1 w-full h-24 object-cover rounded-lg"
-    />
-    <div className="flex justify-between mt-2 px-3">
-      <div className="text-sm font-bold">Start Date:</div>
-      <div className="text-sm font-bold">End Date:</div>
-    </div>
-    <div className="flex justify-between mt-1 px-3">
-      <div className="text-sm">{formatDate(item.startDate)}</div>
-      <div className="text-sm">{formatDate(item.endDate)}</div>
-    </div>
-  </div>
-))}
+          ))}
         </div>
       </div>
-      {showAddTask && <AddTask onSubmit={handlAddTaskSubmit}  />}
-   
+      {showAddTask && <AddTask onSubmit={handlAddTaskSubmit} />}
+
+      {showEditTask && (
+        <EditTask
+          task={filteredTasks.find((task) => task._id === selectedTaskId)} // Pass the selected task object
+          onSubmit={handleEditTaskSubmit} // Pass the submit handler function
+          onClose={() => setShowEditTask(false)} // Correctly set onClose prop
+        />
+      )}
+
+      {showdeleteForm && (
+        <DeleteForm
+          taskId={selectedTaskId}
+          onClose={() => setShowdeleteForm(false)} // Close the form
+          onSubmit={handledeleteFormSubmit} // Submit the form for deletion
+          fetchTasks={fetchTasks}
+        />
+      )}
     </div>
   );
 }
 
 export default Tasks;
-

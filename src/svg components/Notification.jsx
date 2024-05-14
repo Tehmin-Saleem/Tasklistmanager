@@ -4,7 +4,7 @@ function Notification() {
   return (
     <>
        <svg
-      className="ml-[700px]  size-[2rem]"
+      className="ml-[700px]  size-[2rem] mt-5"
       width="30"
       height="30"
       viewBox="0 0 40 40"

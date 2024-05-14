@@ -4,7 +4,7 @@ function User() {
   return (
     <>
       <svg
-      className="ml-4  size-[8rem]  "
+      className="ml-4 mt-5 size-[8rem]  "
       width="150"
       height="44"
       viewBox="0 0 191 44"

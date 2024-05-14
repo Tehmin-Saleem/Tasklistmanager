@@ -1,138 +1,146 @@
-import React from "react";
+import React, { useState } from "react";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
-function EditForm({ onClose }) {
-  const updateTask = async (taskId, updatedData) => {
-    try {
-      const response = await fetch(
-        `http://localhost:3000/api/tasks/updateTaskByTitle?title=${encodeURIComponent(
-          taskId
-        )}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(updatedData),
-        }
-      );
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data); // Log updated task data
-        // Update UI or perform any other actions after successful update
-      } else {
-        throw new Error("Failed to update task");
-      }
-    } catch (error) {
-      console.error("Error updating task:", error.message);
-      // Handle error, such as displaying an error message to the user
-    }
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+
+function EditTask({ task, onSubmit, onClose }) {
+  const [editedTask, setEditedTask] = useState({ ...task });
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setEditedTask((prevTask) => ({
+      ...prevTask,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setLoading(true);
+    onSubmit(editedTask);
+    onClose(); // Close the form
+    setLoading(false); // Set loading to false after submission
+  };
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
   };
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full z-50 flex justify-center items-center">
-      <div className="absolute top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50"></div>
-      <div className="bg-white w-[570px] h-lvh p-6 rounded-lg shadow-md relative z-50 overflow-y-auto">
-        <button
-          onClick={onClose}
-          className="absolute size-[30rem]  right-2 bg-gray-500 border w-[24px] h-[20px] pb-6 rounded-[12px]"
-        >
-          <FontAwesomeIcon icon={faTimes} />
-        </button>
-        <h2 className="text-xl font-bold mb-4 text-center">Edit Task</h2>
-        <p className=" pl-[100px] text-[#888888]">
-          Fill the information below to add new task as per
-        </p>{" "}
-        <p className="pl-[190px] text-[#888888]">your requirement</p>
-        <div className="mb-4">
-          <label
-            htmlFor="title"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Enter Title:
-          </label>
-          <input
-            type="text"
-            id="title"
-            name="title"
-            className="mt-1 block w-full border rounded-md py-3 focus:outline-none focus:border-gray-300 pl-3"
-            placeholder="Enter Full Title"
-          />
-        </div>
-        <div className="mb-4">
-          <label
-            htmlFor="description"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Description:{" "}
-            <span className="ml-1 text-xs text-gray-400">
-              (up to 25 characters)
-            </span>
-          </label>
-          <textarea
-            id="description"
-            name="description"
-            rows="3"
-            className="mt-1 block w-full border rounded-md py-3 focus:outline-none focus:border-gray-300 pl-3"
-            placeholder="Enter description text "
-          ></textarea>
-        </div>
-        <div className="mb-4">
-          <label
-            htmlFor="attachment"
-            className="block text-sm font-medium text-gray-700 pb-8"
-          >
-            Attachment
-          </label>
-          <div className="flex items-center">
-            <div className="mr-2">
-              <input id="file-upload" name="attachment" type="file" />
-              <label
-                htmlFor="file-upload"
-                className="cursor-pointer underline underline-offset-2 text-gray-800 font-semibold py-2 px-4 rounded-lg ml-[180px]"
-              ></label>
-            </div>
-          </div>
-        </div>
-        <div className="mb-4">
-          <label
-            htmlFor="start-date"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Start Date:
-          </label>
-          <input
-            type="date"
-            id="start-date"
-            name="start-date"
-            className="mt-1 block w-full border rounded-md py-3 focus:outline-none focus:border-gray-300 pl-3"
-          />
-        </div>
-        <div className="mb-4">
-          <label
-            htmlFor="end-date"
-            className="block text-sm font-medium text-gray-700"
-          >
-            End Date:
-          </label>
-          <input
-            type="date"
-            id="end-date"
-            name="end-date"
-            className="mt-1 block w-full border rounded-md py-3 focus:outline-none focus:border-gray-300 pl-3"
-          />
-        </div>
-        <div className="flex justify-center">
-          <button
-            onClick={onClose}
-            className="py-4 px-[150px]  rounded-md text-white bg-[#4BCBEB] mb-8 font-bold"
-          >
-            Edit
+    <div className="fixed inset-0 flex items-center justify-center bg-[#000000] bg-opacity-50">
+      <div className="bg-white p-8 w-[482px] rounded-lg">
+        <div className="flex">
+          <h2 className="text-xl font-medium mx-auto mb-4 mt-1 text-center">
+            Edit Task
+          </h2>
+          <button onClick={onClose} className="">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6 text-gray-500"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
           </button>
         </div>
+        <div className="ml-14 mr-14 items-center justify-center">
+          <p className="text-xs text-[#888888] text-center justify-center">
+            Fill the information below to edit task as per <br></br>your
+            requirement.
+          </p>
+        </div>
+
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label htmlFor="title" className="block mb-1 font-bold">
+              Enter Title:
+            </label>
+            <input
+              type="text"
+              name="title"
+              placeholder="Enter Full Title"
+              value={editedTask.title}
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded-md py-1 px-3"
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="value2" className="block mb-1 font-bold">
+              Description:
+            </label>
+            <input
+              type="text"
+              name="description"
+              placeholder="Enter Description Text"
+              value={editedTask.description}
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded-md py-1 px-3"
+            />
+          </div>
+          <label htmlFor="value3" className="block mb-1 font-bold">
+            Attachment:
+          </label>
+
+          <input
+            type="file"
+            name="attachment"
+            className="w-full h-40 border border-gray-300 rounded-md py-1 px-3"
+          />
+          <div className="flex">
+            <p className="text-xs text-[#888888]">Supported Format: PNG,JPG</p>
+            <p className="text-xs ml-36 text-[#888888]">Maximum size: 5mb</p>
+          </div>
+          <label className="block mb-2 mt-3 font-bold">Start Date:</label>
+          <input
+            className="w-full border border-gray-300 rounded-md py-1 px-3"
+            type="date"
+            name="startDate"
+            value={formatDate(editedTask.startDate)}
+            onChange={handleChange}
+            required
+          ></input>
+          <label className="block mb-2 font-bold">End Date:</label>
+          <input
+            className="w-full border border-gray-300 rounded-md py-1 px-3"
+            type="date"
+            name="endDate"
+            value={formatDate(editedTask.endDate)}
+            onChange={handleChange}
+            required
+          ></input>
+          {/* Submit button with loading spinner */}
+          <button
+            type="submit"
+            className="bg-blue-500 text-white py-2 px-4 ml-40 mt-3 rounded-md relative"
+            style={{ width: "100px", height: "40px" }} // Set fixed dimensions for the button
+            disabled={loading} // Disable button when loading is true
+          >
+            {loading && (
+              <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
+                <FontAwesomeIcon
+                  icon={faSpinner}
+                  className="fa-spin text-white"
+                />
+              </div>
+            )}
+            {!loading && "Submit"}
+          </button>
+        </form>
       </div>
     </div>
   );
 }
 
-export default EditForm;
+export default EditTask;

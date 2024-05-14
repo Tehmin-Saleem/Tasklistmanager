@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
 import Menu from "./Menu";
 import Header from "./Header";
+import React from "react";
 function Notification() {
   const [notifications, setNotification] = useState([
     {
       message: "Pending Task",
-      detail: "You are going to kashmir",
+      detail: "You did not completed the task",
       dateTime: "2024-04-28T10:30:00Z",
     },
     {
       message: "Due Task Date",
-      detail: "Please do the work",
+      detail: "Hey, do your work..",
       dateTime: "2024-04-27T12:30:00Z",
     },
     {
@@ -20,7 +21,7 @@ function Notification() {
     },
     {
       message: "Task completed",
-      detail: "You have completed the task",
+      detail: "Well Done you completed the task",
       dateTime: "2024-02-29T10:00:00Z",
     },
   ]);
@@ -42,8 +43,8 @@ function Notification() {
     const todayNotifications = notifications.filter((notification) => {
       const notificationDate = new Date(notification.dateTime);
       return notificationDate >= today;
-    }); 
-    
+    });
+
     const yesterdayNotifications = notifications.filter((notification) => {
       const notificationDate = new Date(notification.dateTime);
       return notificationDate >= yesterday && notificationDate < today;
@@ -81,15 +82,8 @@ function Notification() {
       </div>
 
       <div className="pl-[2px] w-10/12 bg-[#F6F8FA]">
-        <Header name="Notifications" ></Header>
+        <Header headername="Notifications"></Header>
         <div className="ml-16 mt-3 w-[600px] h-[620px] ">
-          <h1 className="text-[#445862] font-semibold text-2xl">
-            Notification
-          </h1>
-          <p className="text-sm text-[#37474F]">
-            you have 2 unread notification
-          </p>
-
           <div>
             <h1 className="mt-5 text-[#9A9EA5] text-2xl">Today</h1>
             <div>
@@ -210,7 +204,7 @@ function Notification() {
               })}
             </div>
 
-            <h1 className="mt-5 text-[#9A9EA5] text-2xl">Rest</h1>
+            <h1 className="mt-5 text-[#9A9EA5] text-2xl">Earlier</h1>
             <div>
               {restNotifications.map((notification, index) => {
                 return (
