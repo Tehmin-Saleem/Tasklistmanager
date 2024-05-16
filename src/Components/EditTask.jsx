@@ -32,8 +32,8 @@ function EditTask({ task, onSubmit, onClose }) {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-[#000000] bg-opacity-50">
-      <div className="bg-white p-8 w-[482px] rounded-lg">
+    <div className="fixed inset-0 flex items-center justify-center  bg-[#000000] bg-opacity-50">
+          <div className="bg-white p-8 rounded-lg">
         <div className="flex">
           <h2 className="text-xl font-medium mx-auto mb-4 mt-1 text-center">
             Edit Task
@@ -135,7 +135,7 @@ function EditTask({ task, onSubmit, onClose }) {
                 />
               </div>
             )}
-            {!loading && "Submit"}
+            {!loading && "Edit"}
           </button>
         </form>
       </div>

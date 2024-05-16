@@ -76,12 +76,19 @@ function Tasks() {
 
   function handlAddTaskSubmit(data) {
     setShowAddTask(true);
+    const formData = new FormData(); 
+    formData.append("title", data.title);
+    formData.append("description", data.description);
+    formData.append("startDate", data.startDate);
+    formData.append("endDate", data.endDate);
+    formData.append("attachment", data.attachment);
     axios
-      .post("http://localhost:3000/api/tasks/addTasks", data)
+      .post("http://localhost:3000/api/tasks/addTasks", formData)
       .then((response) => {
         setSubmittedData([...submittedData, data]);
         setFilteredTasks([...filteredTasks, data]);
         setShowAddTask(false);
+        fetchTasks();
       })
       .catch((error) => {
         console.error("Error adding task:", error);
@@ -179,8 +186,8 @@ function Tasks() {
   };
 
   return (
-    <div className="flex flex-col md:flex-row h-screen">
-      <div className="md:w-64">
+    <div className="flex flex-col md:flex-row h-screen ">
+      <div className="md:w-64 hidden sm:block">
         <Menu />
       </div>
 
@@ -245,7 +252,7 @@ function Tasks() {
             </div>
           )}
         </div>
-        <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-11 px-4 md:px-16">
+        <div className="mt-6 grid grid-cols-1 md:grid-cols-3 sm:grid-cols-2 gap-4 md:gap-11 px-4 md:px-16">
           {filteredTasks.map((item, index) => (
             <div
               key={index}
@@ -280,7 +287,7 @@ function Tasks() {
                             role="menuitem"
                             onClick={() => {
                               setShowEditTask(true);
-                              // handleEditTaskSubmit(item._id);
+                            
                             }}
                           >
                             Edit
@@ -294,7 +301,8 @@ function Tasks() {
               <p className="px-3">{item.description}</p>
               <div className="text-sm font-bold mt-2 px-3">Attachment:</div>
               <img
-                src={Taskimage}
+              //  src={"http://localhost:3000/upload" + item.attachment} 
+               src={`http://localhost:3000/${item.attachment}`}
                 alt="Attachment"
                 className="mt-1 w-full h-24 object-cover rounded-lg"
               />

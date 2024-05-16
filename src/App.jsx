@@ -24,8 +24,8 @@ function App() {
   // Cleanup local storage and store on beforeunload event
   useEffect(() => {
     window.addEventListener("beforeunload", () => {
-      localStorage.removeItem("token");
-      localStorage.removeItem("role");
+      // localStorage.removeItem("token");
+      // localStorage.removeItem("role");
       authStore.token = null;
       authStore.role = null;
       authStore.isAuthenticated = false;

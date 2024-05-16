@@ -3,42 +3,53 @@ import axios from "axios";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+
 function AddTask({ onSubmit }) {
   const [cross, setCross] = useState(true);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [loading, setLoading] = useState(false); // Add loading state
+  const [loading, setLoading] = useState(false);
+  const [attachment, setAttachment] = useState(null);
+
   function crossDisplay() {
     setCross(!cross);
   }
+
+  const handleFileSelect = (event) => {
+    const selectedFile = event.target.files[0];
+    setAttachment(selectedFile)
+  };
+
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    setLoading(true); // Set loading to true on form submission
+    setLoading(true);
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("description", description);
+    formData.append("startDate", startDate);
+    formData.append("endDate", endDate);
+    formData.append("attachment", attachment);
+
     axios
-      .post("http://localhost:3000/api/tasks/addTasks", {
-        title,
-        description,
-        startDate,
-        endDate,
-      })
+      .post("http://localhost:3000/api/tasks/addTasks", formData)
       .then((result) => {
-        const newData = { title, description, startDate, endDate };
+        const newData = { title, description, startDate, attachment, endDate };
         onSubmit(newData);
-        setLoading(false); // Set loading to false after successful submission
+        setLoading(false);
         console.log(result);
       })
       .catch((err) => {
-        setLoading(false); // Set loading to false if submission is unsuccessful
+        setLoading(false);
         console.log(err);
       });
   };
   return (
     <>
       {cross && (
-        <div className="fixed inset-0 flex items-center justify-center bg-[#000000] bg-opacity-50 h-screen">
-          <div className="bg-white p-8 w-[482px] rounded-lg">
+         <div className="fixed inset-0 flex items-center justify-center bg-[#000000]  bg-opacity-50">
+         <div className="bg-white p-8 rounded-lg">
             <div className="flex">
               <h2 className="text-xl font-medium mx-auto mb-4 mt-1 text-center">
                 Add Task
@@ -99,6 +110,7 @@ function AddTask({ onSubmit }) {
               <input
                 type="file"
                 name="attachment"
+                onChange={handleFileSelect} 
                 className="w-full h-40 border border-gray-300 rounded-md py-1 px-3"
               />
               <div className="flex">
@@ -142,7 +154,7 @@ function AddTask({ onSubmit }) {
                     />
                   </div>
                 )}
-                {!loading && "Submit"}
+                {!loading && "Add"}
               </button>
             </form>
           </div>

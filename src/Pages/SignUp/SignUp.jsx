@@ -56,38 +56,37 @@ const [ShowPassword, setShowPassword]=useState("false");
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/users/signup",
-        {
-          name: formData.name,
-          email: formData.email,
-          password: formData.password,
-        }
-      );
+        const response = await axios.post(
+            "http://localhost:3000/api/users/signup",
+            {
+                name: formData.name,
+                email: formData.email,
+                password: formData.password,
+            }
+        );
 
-      // Assuming response contains user data and token
-      const { user, token, name } = response.data;
+        // Extract name from formData
+        const { name } = formData;
 
-      // Update authStore with user data, name, and authentication state
-      // authStore.user = user;
-      // authStore.name = name; // Store the name in authStore
-      // authStore.token = token;
-      // authStore.isAuthenticated = true;
+        // Update authStore with user data and authentication state
+        authStore.name = name; // Store the name in authStore
+        authStore.isAuthenticated = true;
 
-      // Store token in local storage (if needed)
-      localStorage.setItem("token", token);
-      console.log("cbdee", response.data);
-      // Clear the form data
-      setFormData({ name: "", email: "", password: "" });
+        // Store name in local storage
+        localStorage.setItem("name", name);
 
-      // Redirect to login page (if needed)
-      navigate("/login");
+        // Clear the form data
+        setFormData({ name: "", email: "", password: "" });
+
+        // Redirect to login page (if needed)
+        navigate("/login");
     } catch (error) {
-      setLoading(false);
-      console.log(error);
-      // Handle signup error, display appropriate message to the user
+        setLoading(false);
+        console.log(error);
+        // Handle signup error, display appropriate message to the user
     }
-  };
+};
+
 
   return (
     <div className="main flex justify-content-center items-center h-screen w-full">

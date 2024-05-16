@@ -34,33 +34,29 @@ function Login() {
     setLoading(true);
 
     axios
-      .post("http://localhost:3000/api/users/login", { email, password })
-      .then((result) => {
-        const { name, user, token } = result.data;
+        .post("http://localhost:3000/api/users/login", { email, password })
+        .then((result) => {
+            const { name, user, token } = result.data;
 
-        // Update Valtio store with user and authentication state
-        authStore.user = user;
-        authStore.token = token;
-        authStore.name = name;
-        authStore.isAuthenticated = true;
+            // Update Valtio store with user and authentication state
+            authStore.user = user;
+            authStore.token = token;
+            authStore.name = name;
+            authStore.isAuthenticated = true;
 
-        // Store token in local storage (if needed)
-        localStorage.setItem("token", token);
-        console.log(
-          "Authentication state after login:",
-          authStore.isAuthenticated
-        );
+            // Store token in local storage (if needed)
+            localStorage.setItem("token", token);
 
-        // Navigate to dashboard if authenticated
-        console.log("Navigating to dashboard...");
-        navigate("/dashboard");
-      })
-      .catch((err) => {
-        setLoading(false);
-        setError("Incorrect email or password.");
-        console.log(err);
-      });
-  };
+            // Navigate to dashboard if authenticated
+            navigate("/dashboard");
+            window.location.reload();
+        })
+        .catch((err) => {
+            setLoading(false);
+            setError("Incorrect email or password.");
+            console.log(err);
+        });
+};
 
   return (
     <div className="main flex justify-center items-center h-screen">

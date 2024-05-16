@@ -24,18 +24,18 @@ const Menu = () => {
   return (
     <div className="min-h-screen flex flex-col md:flex-row bg-white shadow">
       {/* Hamburger menu icon for small and medium devices */}
-      <div className="md:hidden fixed inset-y-0 left-0 z-50">
+      <div className="md:hidden ">
         <button onClick={handleMenuToggle} className="p-2">
           <FontAwesomeIcon icon={faBars} /> {/* Hamburger menu icon */}
         </button>
       </div>
       {menuOpen && (
-        <div className="fixed inset-0 z-50 bg-white">
+        <div className=" inset-0 z-50 bg-white">
           <div className="md:w-64 bg-white shadow">{/* Menu content */}</div>
         </div>
       )}
       {/* Menu for large devices */}
-      <div className="md:w-64 bg-white shadow fixed inset-y-0 left-0 z-50">
+      <div className="md:w-64 bg-white shadow ">
         <div className="mt-5 flex items-center justify-center">
           <TaskList />
           <h1 className="px-3 font-bold text-lg text-[#4BCBEB]">
