@@ -190,8 +190,8 @@ function Dashboard() {
   }, [selectedOption]); // Update chart when selected option changes
 
   return (
-    <div className="flex flex-col md:flex-row h-screen">
-      <div className="md:w-64">
+    <div className="flex h-auto ">
+      <div className="h-screen w-64 ">
         <Menu />
       </div>
 
@@ -335,7 +335,7 @@ function Dashboard() {
 
               <Calendar onChange={onChange} value={date} />
             </div>
-            {/* </div> */}
+           
           </div>
         </div>
       </div>

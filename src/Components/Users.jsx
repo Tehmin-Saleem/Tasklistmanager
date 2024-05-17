@@ -70,7 +70,7 @@ function Users() {
         <Menu></Menu>
       </div>
 
-      <div className="pl-[2px] w-10/12 bg-[#F6F8FA] ">
+      <div className="pl-[2px] lg:w-10/12 bg-[#F6F8FA] ">
         <Header headername="Users"></Header>
         <div className="mt-5 ml-6 w-90% h-auto bg-white rounded-xl border-[1.45px] border-[#4BCBEB] drop-shadow-md truncate mb-8 ">
           <h1 className="m-5 font-bold text-2xl">Online User</h1>
